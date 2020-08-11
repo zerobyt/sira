@@ -6,41 +6,149 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
-Route::any('/', 'ServidorController@index');
+/*
+|--------------------------------------------------------------------------
+| Notificación de Ingreso de Mercancía
+|--------------------------------------------------------------------------
+*/
+    Route::any('/', 'ServidorController@index');
+    Route::get('/wsdl', 'ServidorController@wsdl')->name('wsdl');
+/*
+|--------------------------------------------------------------------------
+| end Notificación de Ingreso de Mercancía
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/wsdl', 'ServidorController@wsdl')
-    ->name('wsdl');
+/*
+|--------------------------------------------------------------------------
+| Consulta alterna a Notificación de Ingreso de Mercancía
+|--------------------------------------------------------------------------
+*/
+    Route::any('/ConsultaManifiestos', 'ConsultaManifiestosController@ConsultaManifiestos')
+        ->name('cliente.consultamanifiestos');
 
-Route::post('/ConsultaManifiestos', 'ConsultaManifiestosController@ConsultaManifiestos')
-    ->name('cliente.consultamanifiestos');
+    Route::any('/ConsultaDetalleGuia', 'ConsultaDetalleGuiaController@ConsultaDetalleGuia')
+        ->name('cliente.consultadetalleguia');
+/*
+|--------------------------------------------------------------------------
+| end Webservices de consulta alternos a Notificación de Ingreso de Mercancía
+|--------------------------------------------------------------------------
+*/
 
-Route::post('/ConsultaDetalleGuia', 'ConsultaDetalleGuiaController@ConsultaDetalleGuia')
-    ->name('cliente.consultadetalleguia');
+/*
+|--------------------------------------------------------------------------
+| Ingresos
+|--------------------------------------------------------------------------
+*/
+    /*
+    |--------------------------------------------------------------------------
+    | Ingreso Simple
+    |--------------------------------------------------------------------------
+    */
+    Route::any('/IngresoSimple/Master','IngresoSimpleController@IngresoSimpleMaster')
+        ->name('cliente.ingresosimple.master');
 
-/*Ingreso Simple*/
-Route::get('/IngresoSimpleMaster','IngresoSimpleController@IngresoSimpleMaster')
-    ->name('cliente.ingresosimplemaster');
+    Route::any('/IngresoSimple/House','IngresoSimpleController@IngresoSimpleHouse')
+        ->name('cliente.ingresosimple.house');
+    /*
+    |--------------------------------------------------------------------------
+    |end IngresoSimple
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/IngresoSimpleHouse','IngresoSimpleController@IngresoSimpleHouse')
-    ->name('cliente.ingresosimplehouse');
-/*end IngresoSimple */
+    /*
+    |--------------------------------------------------------------------------
+    | IngresoNoManifestado
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/IngresoNoManifestado','IngresoNoManifestadoController@IngresoNoManifestado')
+        ->name('cliente.ingresonomanifestado');
+    /*
+    |--------------------------------------------------------------------------
+    | end IngresoNoManifestado
+    |--------------------------------------------------------------------------
+    */
 
-/*IngresoNoManifestado*/
-Route::get('/IngresoNoManifestado','IngresoNoManifestadoController@IngresoNoManifestado')
-    ->name('cliente.ingresonomanifestado');
-/*end IngresoNoManifestado*/
+    /*
+    |--------------------------------------------------------------------------
+    | IngresoParcial
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/IngresoParcial/Master/','IngresoParcialController@IngresoParcialMaster')
+        ->name('cliente.ingresoparcial.master');
 
-/*IngresoParcial*/
-Route::get('/IngresoParcialMaster/{guiaMaster}','IngresoParcialController@IngresoParcialMaster')
-    ->name('cliente.ingresoparcialmaster');
+    Route::get('/IngresoParcial/House','IngresoParcialController@IngresoParcialHouse')
+        ->name('cliente.ingresoparcial.house');
+    /*
+    |--------------------------------------------------------------------------
+    | end IngresoParcial
+    |--------------------------------------------------------------------------
+    */
+/*
+|--------------------------------------------------------------------------
+| end Ingresos
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/IngresoParcialHouse','IngresoParcialController@IngresoParcialHouse')
-    ->name('cliente.ingresoparcialhouse');
-/*end IngresoParcial*/
+/*
+|--------------------------------------------------------------------------
+| Salidas
+|--------------------------------------------------------------------------
+*/
+    /*
+    |--------------------------------------------------------------------------
+    | Salida Master
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/Salida/Solicitud/Master','SalidasController@SolicitudSalidaMaster')
+        ->name('cliente.salida.solicitud.master');
+
+    Route::get('/Salida/Confirmacion/MasterDirecta','SalidasController@ConfirmacioSalidaMaster')
+        ->name('cliente.salida.confirmacion.master');
+    /*
+    |--------------------------------------------------------------------------
+    | end Salida Master
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Salida House
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/Salida/Solicitud/House','SalidasController@SolicitudSalidaHouse')
+        ->name('cliente.salida.solicitud.house.directa');
+
+    Route::get('/Salida/Confirmacion/House','SalidasController@ConfirmacionSalidaHouse')
+        ->name('cliente.salida.confirmacion.house.directa');
+    /*
+    |--------------------------------------------------------------------------
+    | end Salida House directa
+    |--------------------------------------------------------------------------
+    */
+/*
+|--------------------------------------------------------------------------
+| end Salidas
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Cancelaciones
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| end Cancelaciones
+|--------------------------------------------------------------------------
+*/
+
+/*======================================================================================*/
+//Inicia sección para consulta de información API Rest
+/*======================================================================================*/
+
+Route::get('/api/guiasmaster/', 'ApiController@verGuiasMaster')
+    ->name('guiasmaster');

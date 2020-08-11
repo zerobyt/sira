@@ -11,11 +11,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Models\InformacionGeneral;
 
 class Guia extends Model
 {
+    use SoftDeletes;
     protected $table = 'guia';
     public $timestamps = true;
+    protected $dates = ['deleted_at'];
     protected $fillable = [
         'numeroGuiaBl',
         'caat',
@@ -32,6 +37,11 @@ class Guia extends Model
         'observaciones',
         'tipoGuia',
         'idMaster',
-        'idContenedor'
+        'idInfoGeneral'
     ];
+
+    public function InformacionGeneral()
+    {
+        return $this->belongsTo(InformacionGeneral::class,'idInfoGeneral');
+    }
 }

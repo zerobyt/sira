@@ -20,7 +20,6 @@ class Server
 {
     public function notificacionIngresoMercancia($request)
     {
-
         //Segmentación de Request--------------------------------------->>>>>>>
         $igReq = isset($request->informacionGeneral) ? $request->informacionGeneral : NULL;
         $trReq = isset($request->transporte) ? $request->transporte : NULL;
@@ -205,7 +204,6 @@ class Server
             $gmp->save();
         }
         //end Información de Personas Guía Master----------------------->>>>>>>
-
 
         //Información Guía House---------------------------------------->>>>>>>
         if(is_array($gm_ghReq))
@@ -599,14 +597,11 @@ class Server
         //end Información Guía House------------------------------------>>>>>>>
 
         //end Información Guia Master----------------------------------->>>>>>>
-
-
         if($igReq == NULL || $trReq == NULL || $gmReq == NULL){
             $soapResponse = 'Ha ocurrido un error inesperado';
         }else{
             $soapResponse = "Transmision correcta CONSECUTIVO:".$ig->consecutivo;
         }
-
         return $soapResponse;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
-*  Webservice VUCEM/SIRA basado en Manual de Operación SIRA v3.5
+*  Webservice VUCEM/SIRA basado en Manual de Operación SIRA v3.7
 *  Desarrollado por Cristian Omar Vega Mendoza.
 */
 
@@ -15,23 +15,30 @@ use App\Models\Transporte;
 use App\Models\Vin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use App\Helpers\nusoap_client;
+use Config;
 
 class IngresoSimpleController extends Controller
 {
-    private $username = "MAR870122MX9";
-    private $password = "i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq";
-    private $camir = '4718';
-    private $trafico = 'A';
-    PRIVATE $endpoint = 'https://201.151.252.116:9202/OperacionEntradaImpl/OperacionEntradaService';
+    public $username;
+    public $password;
+    public $camir;
+    public $endpoint;
     private $cliente;
+    private $trafico = 'A';
 
     public function __construct()
     {
+        $this->username = Config::get('app.vucemsira.user');
+        $this->password = Config::get('app.vucemsira.password');
+        $this->camir = Config::get('app.vucemsira.camir');
+        $this->$endpoint = Config::get('app.vucemsira.endpoint_ingresos');
+
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
         $expires = gmdate('Y-m-d\TH:i:s\Z', time() + 59);
@@ -57,14 +64,139 @@ class IngresoSimpleController extends Controller
     /*IngresoSimple por Guía Master*/
     public function IngresoSimpleMaster(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'consecutivo' => 'required',
+            'idAsociado' => 'required',
+            'tipoOperacion' => 'required',
+            'fechaInicioDescarga' => 'required',
+            'fechaFinDescarga' => 'required',
+            'peso' => 'required',
+            'condicionCarga' => 'required',
+        ]);
 
+        if ($validator->fails()) {
+            $response = ['return'=>'error','mensaje'=>'Error al recibir los valores requeridos'];
+            return response()->json($response, JSON_UNESCAPED_UNICODE );
+        }
+
+        $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR MASTER IMM RECINTO 262';
+
+        $data =
+            ['arg0'=>
+                ['informacionGeneral' =>
+                    [
+                        //AQUI VA EL CONSECUTIVO GENERADO POR EL EMISOR DE LA TRANSMISION
+                        'consecutivo'=>$request->consecutivo,
+                        //AQUI VA EL ID ASOCIADO RECIBIDO EN LA NOTIFICACIÓN
+                        'idAsociado'=>$request->idAsociado,
+                        //AQUI VA LA FECHA ACTUAL FORMATO YYYY-MM-DDTHH:MM:SSZ
+                        'fechaRegistro'=>gmdate('Y-m-d\TH:i:s\Z'),
+                        //QUI VA SIEMPRE 1, CORRESPONDE AL INGRESO SIMPLE
+                        'tipoMovimiento'=>'1',
+                        //1= FERROS 2= AEREOS 3=MUM
+                        'detalleMovimiento'=>'2',
+                        //1= IMPORTACIÓN 2= EXPORTACIÓN
+                        'tipoOperacion'=>$request->tipoOperacion,
+                        //AQUI VA EL CAMIR DEL RECINTO
+                        'cveRecintoFiscalizado'=>$this->camir,
+                        //AQUÍ VA M = MASTER EN ESTE CASO
+                        'tipoIngreso'=>'M'
+                    ]
+                ],
+                ['informacionIngreso' =>
+                    [
+                        //AQUI VAN VALORES DE CATALOGO QUE ENVIA RF 1=3 DÍAS, 2=45 DÍAS, 3=60 DÍAS
+                        'tipoMercancia'=>'',
+                        //AQUI VA EL FECHA EN QUE INICIA LA DESCARGA FORMATO YYYY-MM-DDTHH:MM:SSZ
+                        'fechaInicioDescarga'=>$request->fechaInicioDescarga,
+                        //AQUI VA EL FECHA EN QUE TERMINA LA DESCARGA FORMATO YYYY-MM-DDTHH:MM:SSZ
+                        'fechaFinDescarga'=>$request->fechaFinDescarga,
+                        //AQUÍ VA EL PESO EN KILOGRAMOS (30.5)
+                        'peso'=>$request->peso,
+                        //AQUÍ VA 1=CARGA EN OPTIMAS CONDICIONES, 2=CARGA MOJADA, 3=CARGA DAÑADA
+                        'condicionCarga'=>$request->condicionCarga,
+                        //AQUÍ VAN LOS DETALLES DEL INGRESO DE LA MERCANCÍA
+                        'observaciones'=>$observaciones
+                    ]
+                ]
+            ];
+
+            $call = $this->cliente->call('ingresoSimple',$data);
+            return response()->json($call, JSON_UNESCAPED_UNICODE );
+            //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
     }
     /*end IngresoSimple por Guía Master*/
 
     /*IngresoSimple por Guía House*/
     public function IngresoSimpleHouse(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'consecutivo' => 'required',
+            'idAsociado' => 'required',
+            'tipoOperacion' => 'required',
+            'fechaInicioDescarga' => 'required',
+            'fechaFinDescarga' => 'required',
+            'peso' => 'required',
+            'condicionCarga' => 'required',
+            'guiaHouse' => 'required',
+        ]);
 
+        if ($validator->fails()) {
+            $response = ['return'=>'error','mensaje'=>'Error al recibir los valores requeridos'];
+            return response()->json($response, JSON_UNESCAPED_UNICODE );
+        }
+
+        $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR HOUSE IMM RECINTO 262';
+
+        $data =
+            ['arg0'=>
+                ['informacionGeneral' =>
+                    [
+                        //AQUI VA EL CONSECUTIVO GENERADO POR EL EMISOR DE LA TRANSMISION
+                        'consecutivo'=>$request->consecutivo,
+                        //AQUI VA EL ID ASOCIADO RECIBIDO EN LA NOTIFICACIÓN
+                        'idAsociado'=>$request->idAsociado,
+                        //AQUI VA LA FECHA ACTUAL FORMATO YYYY-MM-DDTHH:MM:SSZ
+                        'fechaRegistro'=>gmdate('Y-m-d\TH:i:s\Z'),
+                        //QUI VA SIEMPRE 1, CORRESPONDE AL INGRESO SIMPLE
+                        'tipoMovimiento'=>'1',
+                        //1= FERROS 2= AEREOS 3=MUM
+                        'detalleMovimiento'=>'2',
+                        //1= IMPORTACIÓN 2= EXPORTACIÓN
+                        'tipoOperacion'=>$request->tipoOperacion,
+                        //AQUI VA EL CAMIR DEL RECINTO
+                        'cveRecintoFiscalizado'=>$this->camir,
+                        //AQUÍ VA H = HOUSE EN ESTE CASO
+                        'tipoIngreso'=>'H'
+                    ]
+                ],
+                ['informacionIngreso' =>
+                    [
+                        //AQUI VAN VALORES DE CATALOGO QUE ENVIA RF 1=3 DÍAS, 2=45 DÍAS, 3=60 DÍAS
+                        'tipoMercancia'=>'',
+                        //AQUI VA EL FECHA EN QUE INICIA LA DESCARGA FORMATO YYYY-MM-DDTHH:MM:SSZ
+                        'fechaInicioDescarga'=>$request->fechaInicioDescarga,
+                        //AQUI VA EL FECHA EN QUE TERMINA LA DESCARGA FORMATO YYYY-MM-DDTHH:MM:SSZ
+                        'fechaFinDescarga'=>$request->fechaFinDescarga,
+                        //AQUÍ VA EL PESO EN KILOGRAMOS (30.5)
+                        'peso'=>$request->peso,
+                        //AQUÍ VA 1=CARGA EN OPTIMAS CONDICIONES, 2=CARGA MOJADA, 3=CARGA DAÑADA
+                        'condicionCarga'=>$request->condicionCarga,
+                        //AQUÍ VAN LOS DETALLES DEL INGRESO DE LA MERCANCÍA
+                        'observaciones'=>$observaciones
+                    ]
+                ],
+                ['guiasHouse' =>
+                    [
+                        //AQUÍ VA LA GUÍA HOUSE QUE SE VA A INGRESAR
+                        'guiaHouse'=>$request->guiaHouse
+                    ]
+                ]
+            ];
+
+        $call = $this->cliente->call('ingresoSimple',$data);
+        return response()->json($call, JSON_UNESCAPED_UNICODE );
+        //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request        
     }
     /*end IngresoSimple por Guía House*/
 }

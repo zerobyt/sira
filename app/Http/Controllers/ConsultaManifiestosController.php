@@ -1,7 +1,7 @@
 <?php
 
 /*
-*  Webservice VUCEM/SIRA basado en Manual de Operación SIRA v3.5
+*  Webservice VUCEM/SIRA basado en Manual de Operación SIRA v3.7
 *  Desarrollado por Cristian Omar Vega Mendoza.
 */
 
@@ -13,18 +13,24 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use App\Helpers\nusoap_client;
+use Config;
 
 class ConsultaManifiestosController extends Controller
 {
-    private $username = "MAR870122MX9";
-    private $password = "i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq";
-    private $camir = '4718';
-    private $trafico = 'A';
-    private $endpoint = 'https://201.151.252.116:9202/recintos/ConsultaManifiestos';
+    public $username;
+    public $password;
+    public $camir;
+    public $endpoint;
     private $cliente;
+    private $trafico = 'A';
 
     public function __construct()
     {
+        $this->username = Config::get('app.vucemsira.user');
+        $this->password = Config::get('app.vucemsira.password');
+        $this->camir = Config::get('app.vucemsira.camir');
+        $this->endpoint = Config::get('app.vucemsira.endpoint_manifiesto');
+
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
         $expires = gmdate('Y-m-d\TH:i:s\Z', time() + 59);

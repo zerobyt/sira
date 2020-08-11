@@ -1,7 +1,7 @@
 <?php
 
 /*
-*  Webservice VUCEM/SIRA basado en Manual de Operación SIRA v3.5
+*  Webservice VUCEM/SIRA basado en Manual de Operación SIRA v3.7
 *  Desarrollado por Cristian Omar Vega Mendoza.
 */
 
@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 use App\Helpers\nusoap_client;
 use Config;
 
-class ConsultaDetalleGuiaController extends Controller
+class CancelacionesController extends Controller
 {
     public $username;
     public $password;
@@ -29,7 +29,7 @@ class ConsultaDetalleGuiaController extends Controller
         $this->username = Config::get('app.vucemsira.user');
         $this->password = Config::get('app.vucemsira.password');
         $this->camir = Config::get('app.vucemsira.camir');
-        $this->$endpoint = Config::get('app.vucemsira.endpoint_detalleguia');
+        $this->$endpoint = Config::get('app.vucemsira.endpoint_cancelaciones');
 
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
@@ -53,18 +53,4 @@ class ConsultaDetalleGuiaController extends Controller
         $this->cliente->setHeaders($header);
     }
 
-    /**
-     * [ConsultaDetalleGuia Obtiene la información de una guía master ]
-     * @param Request $request [manifiesto,guiamaster]
-     * Si correcto
-     * @param Return {"return":ArrayMultidimensional}
-     * Si hay error
-     * @param Return {"return":{"informacionGeneral":"","transporte":"","guiaMaster":"","mensajes":"No se encontró información. Revisar sus datos de consulta"}}
-     */
-    public function ConsultaDetalleGuia(Request $request)
-    {
-        $data = ['arg0'=>['camir'=>$this->camir,'trafico'=>$this->trafico,'manifiesto'=>$request->manifiesto,'guiamaster'=>$request->guiaMaster]];
-        $call = $this->cliente->call('notificacionIngresoMercancia',$data);
-        return response()->json($call, JSON_UNESCAPED_UNICODE );
-    }
 }

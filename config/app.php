@@ -3,6 +3,25 @@
 return [
 
     /*
+    |----------------
+    | Datos para conexión a VUCEM SIRA
+    |----------------
+    | Contiene las configuración para reconocer
+    | las variables globales desde el archivo ENV
+    | para conectar al webservice de VUCEM
+    |
+    */
+    'vucemsira' => [
+        'user' => env('APP_SIRA_USER', 'MAR870122MX9'),
+        'password' => env('APP_SIRA_PASS', 'i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq'),
+        'camir' => env('APP_SIRA_CAMIR', '4718'),
+        'endpoint_manifiesto' => env('APP_SIRA_MANIFIESTOS', 'https://201.151.252.116:9202/recintos/ConsultaManifiestos'),
+        'endpoint_detalleguia' => env('APP_SIRA_DETALLEGUIA', 'https://201.151.252.116:9202/recintos/ConsultaDetalleGuia'),
+        'endpoint_ingresos' => env('APP_SIRA_INGRESOS', 'https://201.151.252.116:9202/OperacionEntradaImpl/OperacionEntradaService'),
+        'endpoint_cancelaciones' => env('APP_SIRA_CANCELACIONES', 'https://201.151.252.116:9202/CancelacionesImpl/CancelacionesService')
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------

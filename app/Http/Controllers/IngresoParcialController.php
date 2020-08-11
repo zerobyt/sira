@@ -20,18 +20,23 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use App\Helpers\nusoap_client;
+use Config;
 
 class IngresoParcialController extends Controller
 {
-    private $username = "MAR870122MX9";
-    private $password = "i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq";
-    private $camir = '4718';
+    public $username;
+    public $password;
+    public $camir;
     private $trafico = 'A';
     PRIVATE $endpoint = 'https://201.151.252.116:9202/OperacionEntradaImpl/OperacionEntradaService';
     private $cliente;
 
     public function __construct()
     {
+        $this->username = Config::get('app.vucemsira.user');
+        $this->password = Config::get('app.vucemsira.password');
+        $this->camir = Config::get('app.vucemsira.camir');
+
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
         $expires = gmdate('Y-m-d\TH:i:s\Z', time() + 59);
@@ -57,31 +62,43 @@ class IngresoParcialController extends Controller
     /*IngresoParcial por Guía Master*/
     public function IngresoParcialMaster(Request $request)
     {
-        //Busca la guía ingresada en la base de datos
-        $guia = Guia::Where('numeroGuiaBl',$request->guiaMaster)->first();
-        if(!$guia){
-            return json_encode(['response'=>'error','message'=>'No se ha localizado el registro, verifique el la notificacion de ingreso'],JSON_UNESCAPED_UNICODE);
+        $validator = Validator::make($request->all(), [
+            'consecutivo' => 'required',
+            'idAsociado' => 'required',
+            'tipoOperacion' => 'required',
+            'tipoMercancia' => 'required',
+            'fechaInicioDescarga' => 'required',
+            'fechaFinDescarga' => 'required',
+            'peso' => 'required',
+            'numeroParcialidad' => 'required',
+            'cantidad' => 'required',
+            'condicionCarga' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $response = ['return'=>'error','mensaje'=>'Error al recibir los valores requeridos'];
+            return response()->json($response, JSON_UNESCAPED_UNICODE );
         }
 
-        // $client = new \GuzzleHttp\Client(['verify' => false]);
-        // $response = $client->request('GET', route('cliente.consultadetalleguia', ['manifiesto'=>'262000020200521ZAZ', 'guiaMaster'=>'204-20200521']) );
-        // $response = $response->getBody()->getContents();
-        // print_r($response);
+        $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR MASTER IMM RECINTO 262';
+        $vins = isset($request->vins) ? $request->vins : [];
+
 
         $data = ['arg0'=>
                     ['informacionGeneral' =>
                         [
-                            //AQUI VA EL ID ASOCIADO RECIBIDO EN LA NOTIFICACIÓN
+                            //AQUI VA EL CONSECUTIVO GENERADO POR EL EMISOR DE LA TRANSMISION
                             'consecutivo'=>$request->consecutivo,
+                            //AQUI VA EL ID ASOCIADO RECIBIDO EN LA NOTIFICACIÓN
                             'idAsociado'=>$request->idAsociado,
                             //AQUI VA LA FECHA ACTUAL
                             'fechaRegistro'=>gmdate('Y-m-d\TH:i:s\Z'),
-                            //QUI VA SIEMPRE 3, CORRESPONDE AL INGRESO PARCIAL
-                            'tipoMovimiento'=>'3',
+                            //AQUI VA EL TIPO DE MOVIMIENTO SIEMPRE 3 PARA INGRESO PARCIAL
+                            'tipoMovimiento' => '3',
                             //1= FERROS 2= AEREOS 3=MUM
                             'detalleMovimiento'=>'2',
                             //1= IMPORTACIÓN 2= EXPORTACIÓN
-                            'tipoOperacion'=>'1',
+                            'tipoOperacion'=>$request->tipoOperacion,
                             //AQUI VA EL CAMIR
                             'cveRecintoFiscalizado'=>$this->camir,
                             //AQUÍ VA M = MASTER EN ESTE CASO
@@ -91,11 +108,11 @@ class IngresoParcialController extends Controller
                     ['informacionIngresoParcial'=>
                         [
                             //ESTADIA EN EL RECINTO (1,3,5....DIAS)
-                            'tipoMercancia'=>'1',
+                            'tipoMercancia'=>$request->tipoMercancia,
                             //FECHA EN LA QUE SE INCIO LA DESCARGA DE LA MERCANCIA EN EL RECINTO
-                            'fechaInicioDescarga'=>gmdate('Y-m-d\TH:i:s\Z', time() - 35),
+                            'fechaInicioDescarga'=>$request->fechaInicioDescarga,
                             //FECHA EN LA QUE SE TERMINO LA DESCARGA DE LA MERCANCIA EN EL RECINTO
-                            'fechaFinDescarga'=>gmdate('Y-m-d\TH:i:s\Z', time() - 15),
+                            'fechaFinDescarga'=>$request->fechaFinDescarga,
                             //PESO DE LA MERCANCIA EN KG QUE SE VA A INGRESAR
                             'peso' => $request->peso,
                             //NUMERO DE LA PARCIALIDAD DEBE SER UN NUMERO CONSECUTIVO Y RESPETAR EL ORDEN SEGUN LAS PARCIALIDADES A INGRESAR
@@ -109,100 +126,103 @@ class IngresoParcialController extends Controller
                             //OBSERVACIONES SOBRE LA MERCANCIA INGRESADA
                             'observaciones'=>'',
                             //SI HAY VINS EN LA PARCIALIDAD SE DEFINE EL SEGMENTO SINO SOLO SE DECLARA <vin>NUMERO_VIN</vin>
-                            'vins'=>'',
-                        ]
-                    ],
-                    ['guiasHouse'=>
-                        [
-                            'guiaHouse'=>'',
-                            'tipoMercancia'=>'',
-                            'fechaInicioDescarga'=>'',
-                            'fechaFinDescarga'=>'',
-                            'numeroParcialidad'=>'',
-                            'peso'=>'',
-                            'cantidad'=>'',
-                            'umc'=>'',
-                            'condicionCarga'=>'',
-                            'observaciones'=>''
+                            'vins'=>$request->vins,
                         ]
                     ]
                 ];
+                $call = $this->cliente->call('ingresoParcial',$data);
+                return response()->json($call, JSON_UNESCAPED_UNICODE );
+                //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
     }
     /*end IngresoParcial por Guía Master*/
 
     /*Ingreso Parcial por Guía House*/
     public function IngresoParcialHouse(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'consecutivo' => 'required',
+            'idAsociado' => 'required',
+            'tipoOperacion' => 'required',
+            'guiaHouse' => 'required',
+            'fechaInicioDescarga' => 'required',
+            'fechaFinDescarga' => 'required',
+            'numeroParcialidad' => 'required',
+            'peso' => 'required',
+            'cantidad' => 'required',
+            'condicionCarga' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $response = ['return'=>'error','mensajeS'=>'Error al recibir los valores requeridos'];
+            return response()->json($response, JSON_UNESCAPED_UNICODE );
+        }
+
+        $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR MASTER IMM RECINTO 262';
+
         $data = ['arg0'=>
                     ['informacionGeneral' =>
                         [
+                            //AQUI VA EL CONSECUTIVO GENERADO POR EL EMISOR DE LA TRANSMISION
+                            'consecutivo'=>$request->consecutivo,
                             //AQUI VA EL ID ASOCIADO RECIBIDO EN LA NOTIFICACIÓN
-                            'consecutivo'=>'20000009K',
-                            'idAsociado'=>'20000009K',
+                            'idAsociado'=>$request->idAsociado,
                             //AQUI VA LA FECHA ACTUAL
                             'fechaRegistro'=>gmdate('Y-m-d\TH:i:s\Z'),
-                            //QUI VA SIEMPRE 3, CORRESPONDE AL INGRESO PARCIAL
-                            'tipoMovimiento'=>'3',
+                            //AQUI VA EL TIPO DE MOVIMIENTO SIEMPRE 3 PARA INGRESO PARCIAL
+                            'tipoMovimiento' => '3',
                             //1= FERROS 2= AEREOS 3=MUM
                             'detalleMovimiento'=>'2',
                             //1= IMPORTACIÓN 2= EXPORTACIÓN
-                            'tipoOperacion'=>'1',
+                            'tipoOperacion'=>$request->tipoOperacion,
                             //AQUI VA EL CAMIR
                             'cveRecintoFiscalizado'=>$this->camir,
-                            //AQUÍ VA M = MASTER EN ESTE CASO
+                            //AQUÍ VA H = HOUSE EN ESTE CASO
                             'tipoIngreso'=>'H'
                         ]
-                    ,'informacionIngresoParcial'=>
+                    ],
+                    //EN INGRESO PARCIAL POR HOUSE EL SIGUIENTE SEGMENTO VA VACIÓ
+                    ['informacionIngresoParcial'=>
                         [
                             'tipoMercancia'=>'',
                             'fechaInicioDescarga'=>'',
                             'fechaFinDescarga'=>'',
-                            'peso'=>'',
+                            'peso' => '',
                             'numeroParcialidad'=>'',
                             'cantidad'=>'',
                             'umc'=>'',
                             'condicionCarga'=>'',
                             'observaciones'=>'',
-                            'vins'=>['vin'=>''],
+                            'vins'=>'',
                         ]
-                    ,'guiasHouse'=>
+                    ],
+                    ['guiasHouse'=>
                         [
-                            //SE DECLARA Y SE DEFINE LA GUIA HOUSE A INGRESAR
-                            'guiaHouse'=>'ZB22220200521',
+                            //AQUÍ VA LA GUÍA HOUSE QUE SE VA A INGRESAR
+                            'guiaHouse'=>'',
                             //ESTADIA EN EL RECINTO (1,3,5....DIAS)
                             'tipoMercancia'=>'1',
                             //FECHA EN LA QUE SE INCIO LA DESCARGA DE LA MERCANCIA EN EL RECINTO
-                            'fechaInicioDescarga'=>gmdate('Y-m-d\TH:i:s\Z', time() - (35*60)),
+                            'fechaInicioDescarga'=>$request->fechaInicioDescarga,
                             //FECHA EN LA QUE SE TERMINO LA DESCARGA DE LA MERCANCIA EN EL RECINTO
-                            'fechaFinDescarga'=>gmdate('Y-m-d\TH:i:s\Z', time() - (15*60)),
+                            'fechaFinDescarga'=>$request->fechaFinDescarga,
                             //NUMERO DE LA PARCIALIDAD DEBE SER UN NUMERO CONSECUTIVO Y RESPETAR EL ORDEN SEGUN LAS PARCIALIDADES A INGRESAR
-                            'numeroParcialidad'=>'1',
-                            'peso'=>'310',
+                            'numeroParcialidad'=>'',
+                            //PESO DE LA MERCANCIA EN KG QUE SE VA A INGRESAR
+                            'peso' => $request->peso,
                             //CANTIDAD DE PIEZAS
-                            'cantidad'=>'70',
+                            'cantidad'=>$request->cantidad,
                             //UNIDAD DE MEDIDA DE CANTIDAD
                             'umc'=>'PCS',
                             //1:OPTIMAS CONDICIONES, 2:CARGA MOJADA, 3:CARGA DAÑADA
-                            'condicionCarga'=>'1',
+                            'condicionCarga'=>$request->condicionCarga,
                             //OBSERVACIONES SOBRE LA MERCANCIA INGRESADA
-                            'observaciones'=>'PRIMERA PARCIALIDAD HOUSE ZB22220200521'
+                            'observaciones'=>''
                         ]
                     ]
                 ];
-            $call = $this->cliente->call('ingresoParcial',$data);
-            $error = $this->cliente->getError();
-
-            if($error){
-                print_r($error);
-            }else{
-               echo "IngresoParcialHouse<br>";
-               echo "Servicio Consultado: ".$this->endpoint."?wsdl <br>";
-               echo "Datos enviados: <br>";
-               echo json_encode($data);
-               echo "<br><br><br>";
-               echo "Respuesta:<br>";
-               echo json_encode($call);
-            }
+                $call = $this->cliente->call('ingresoParcial',$data);
+                return response()->json($call, JSON_UNESCAPED_UNICODE );
+                //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
     }
     /*end IngresoParcial por Guía House*/
 

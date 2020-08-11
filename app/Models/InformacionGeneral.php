@@ -12,6 +12,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Guia;
+
 class InformacionGeneral extends Model
 {
     protected $table = 'informaciongeneral';
@@ -25,4 +27,9 @@ class InformacionGeneral extends Model
         'tipoOperacion',
         'cveRecintoFiscalizado'
     ];
+
+    public function Guias()
+    {
+        return $this->hasMany(Guia::class,'idInfoGeneral');
+    }
 }
