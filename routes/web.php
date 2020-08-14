@@ -63,7 +63,7 @@ use Illuminate\Support\Facades\Route;
     | IngresoNoManifestado
     |--------------------------------------------------------------------------
     */
-    Route::get('/IngresoNoManifestado','IngresoNoManifestadoController@IngresoNoManifestado')
+    Route::any('/IngresoNoManifestado','IngresoNoManifestadoController@IngresoNoManifestado')
         ->name('cliente.ingresonomanifestado');
     /*
     |--------------------------------------------------------------------------
@@ -76,10 +76,10 @@ use Illuminate\Support\Facades\Route;
     | IngresoParcial
     |--------------------------------------------------------------------------
     */
-    Route::get('/IngresoParcial/Master/','IngresoParcialController@IngresoParcialMaster')
+    Route::any('/IngresoParcial/Master/','IngresoParcialController@IngresoParcialMaster')
         ->name('cliente.ingresoparcial.master');
 
-    Route::get('/IngresoParcial/House','IngresoParcialController@IngresoParcialHouse')
+    Route::any('/IngresoParcial/House','IngresoParcialController@IngresoParcialHouse')
         ->name('cliente.ingresoparcial.house');
     /*
     |--------------------------------------------------------------------------
@@ -102,10 +102,10 @@ use Illuminate\Support\Facades\Route;
     | Salida Master
     |--------------------------------------------------------------------------
     */
-    Route::get('/Salida/Solicitud/Master','SalidasController@SolicitudSalidaMaster')
+    Route::any('/Salida/Solicitud/Master','SalidasController@SolicitudSalidaMaster')
         ->name('cliente.salida.solicitud.master');
 
-    Route::get('/Salida/Confirmacion/MasterDirecta','SalidasController@ConfirmacioSalidaMaster')
+    Route::any('/Salida/Confirmacion/MasterDirecta','SalidasController@ConfirmacioSalidaMaster')
         ->name('cliente.salida.confirmacion.master');
     /*
     |--------------------------------------------------------------------------
@@ -118,10 +118,10 @@ use Illuminate\Support\Facades\Route;
     | Salida House
     |--------------------------------------------------------------------------
     */
-    Route::get('/Salida/Solicitud/House','SalidasController@SolicitudSalidaHouse')
+    Route::any('/Salida/Solicitud/House','SalidasController@SolicitudSalidaHouse')
         ->name('cliente.salida.solicitud.house.directa');
 
-    Route::get('/Salida/Confirmacion/House','SalidasController@ConfirmacionSalidaHouse')
+    Route::any('/Salida/Confirmacion/House','SalidasController@ConfirmacionSalidaHouse')
         ->name('cliente.salida.confirmacion.house.directa');
     /*
     |--------------------------------------------------------------------------

@@ -29,7 +29,7 @@ class ConsultaDetalleGuiaController extends Controller
         $this->username = Config::get('app.vucemsira.user');
         $this->password = Config::get('app.vucemsira.password');
         $this->camir = Config::get('app.vucemsira.camir');
-        $this->$endpoint = Config::get('app.vucemsira.endpoint_detalleguia');
+        $this->endpoint = Config::get('app.vucemsira.endpoint_detalleguia');
 
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
@@ -63,7 +63,7 @@ class ConsultaDetalleGuiaController extends Controller
      */
     public function ConsultaDetalleGuia(Request $request)
     {
-        $data = ['arg0'=>['camir'=>$this->camir,'trafico'=>$this->trafico,'manifiesto'=>$request->manifiesto,'guiamaster'=>$request->guiaMaster]];
+        $data = ['arg0'=>['camir'=>$this->camir,'trafico'=>$this->trafico,'manifiesto'=>$request->manifiesto,'guiaMaster'=>$request->guiaMaster]];
         $call = $this->cliente->call('notificacionIngresoMercancia',$data);
         return response()->json($call, JSON_UNESCAPED_UNICODE );
     }

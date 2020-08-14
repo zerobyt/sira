@@ -27,15 +27,16 @@ class IngresoParcialController extends Controller
     public $username;
     public $password;
     public $camir;
-    private $trafico = 'A';
-    PRIVATE $endpoint = 'https://201.151.252.116:9202/OperacionEntradaImpl/OperacionEntradaService';
+    public $endpoint;
     private $cliente;
+    private $trafico = 'A';
 
     public function __construct()
     {
         $this->username = Config::get('app.vucemsira.user');
         $this->password = Config::get('app.vucemsira.password');
         $this->camir = Config::get('app.vucemsira.camir');
+        $this->endpoint = Config::get('app.vucemsira.endpoint_ingresos');
 
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');

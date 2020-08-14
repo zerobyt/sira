@@ -37,7 +37,7 @@ class IngresoSimpleController extends Controller
         $this->username = Config::get('app.vucemsira.user');
         $this->password = Config::get('app.vucemsira.password');
         $this->camir = Config::get('app.vucemsira.camir');
-        $this->$endpoint = Config::get('app.vucemsira.endpoint_ingresos');
+        $this->endpoint = Config::get('app.vucemsira.endpoint_ingresos');
 
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
@@ -102,8 +102,7 @@ class IngresoSimpleController extends Controller
                         //AQUÍ VA M = MASTER EN ESTE CASO
                         'tipoIngreso'=>'M'
                     ]
-                ],
-                ['informacionIngreso' =>
+                ,'informacionIngreso' =>
                     [
                         //AQUI VAN VALORES DE CATALOGO QUE ENVIA RF 1=3 DÍAS, 2=45 DÍAS, 3=60 DÍAS
                         'tipoMercancia'=>'',
@@ -130,6 +129,8 @@ class IngresoSimpleController extends Controller
     /*IngresoSimple por Guía House*/
     public function IngresoSimpleHouse(Request $request)
     {
+        //Ejemplo de Request:
+        //http://localhost/sira/IngresoSimple/House?tipoOperacion=1&guiasHouse=TRESABRIL27%2CCUATROABRIL27%2CCINCOABRIL27&consecutivo=20000006Q&idAsociado=20000006Q&fechaInicioDescarga=2020-08-14T09%3A11%3A32-05%3A00&fechaFinDescarga=2020-08-14T09%3A50%3A00-05%3A00&peso=301.0&condicionCarga=1
         $validator = Validator::make($request->all(), [
             'consecutivo' => 'required',
             'idAsociado' => 'required',
@@ -138,7 +139,7 @@ class IngresoSimpleController extends Controller
             'fechaFinDescarga' => 'required',
             'peso' => 'required',
             'condicionCarga' => 'required',
-            'guiaHouse' => 'required',
+            'guiasHouse' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -146,11 +147,15 @@ class IngresoSimpleController extends Controller
             return response()->json($response, JSON_UNESCAPED_UNICODE );
         }
 
+        $ArrayHouses = [];
+        $guiasHouse = explode(',', $request->guiasHouse);
+        for($i=0;$i<count($guiasHouse);$i++){
+            $ArrayHouses['guiasHouse'][] = ['guiaHouse'=>$guiasHouse[$i]];
+        }
+
         $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR HOUSE IMM RECINTO 262';
 
-        $data =
-            ['arg0'=>
-                ['informacionGeneral' =>
+        $informacionGeneral = ['informacionGeneral' =>
                     [
                         //AQUI VA EL CONSECUTIVO GENERADO POR EL EMISOR DE LA TRANSMISION
                         'consecutivo'=>$request->consecutivo,
@@ -169,8 +174,8 @@ class IngresoSimpleController extends Controller
                         //AQUÍ VA H = HOUSE EN ESTE CASO
                         'tipoIngreso'=>'H'
                     ]
-                ],
-                ['informacionIngreso' =>
+                ];
+        $informacionIngreso = ['informacionIngreso' =>
                     [
                         //AQUI VAN VALORES DE CATALOGO QUE ENVIA RF 1=3 DÍAS, 2=45 DÍAS, 3=60 DÍAS
                         'tipoMercancia'=>'',
@@ -185,18 +190,20 @@ class IngresoSimpleController extends Controller
                         //AQUÍ VAN LOS DETALLES DEL INGRESO DE LA MERCANCÍA
                         'observaciones'=>$observaciones
                     ]
-                ],
-                ['guiasHouse' =>
-                    [
-                        //AQUÍ VA LA GUÍA HOUSE QUE SE VA A INGRESAR
-                        'guiaHouse'=>$request->guiaHouse
-                    ]
-                ]
-            ];
+                ];
 
-        $call = $this->cliente->call('ingresoSimple',$data);
-        return response()->json($call, JSON_UNESCAPED_UNICODE );
-        //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request        
+        $merge_request = array_merge(
+                $informacionGeneral,
+                $informacionIngreso,
+                $ArrayHouses
+        );
+
+        $data = ['arg0'=>$merge_request];
+
+
+        //$call = $this->cliente->call('ingresoSimple',$data);
+        //return response()->json($call, JSON_UNESCAPED_UNICODE );
+        return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
     }
     /*end IngresoSimple por Guía House*/
 }

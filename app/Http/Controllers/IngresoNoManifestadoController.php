@@ -36,7 +36,7 @@ class IngresoNoManifestadoController extends Controller
         $this->username = Config::get('app.vucemsira.user');
         $this->password = Config::get('app.vucemsira.password');
         $this->camir = Config::get('app.vucemsira.camir');
-        $this->$endpoint = Config::get('app.vucemsira.endpoint_ingresos');
+        $this->endpoint = Config::get('app.vucemsira.endpoint_ingresos');
 
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
@@ -146,7 +146,9 @@ class IngresoNoManifestadoController extends Controller
                 ]
             ];
 
-
+            $call = $this->cliente->call('ingresoParcial',$data);
+            return response()->json($call, JSON_UNESCAPED_UNICODE );
+            //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
     }
     /*end IngresoNoManifestado*/
 }
