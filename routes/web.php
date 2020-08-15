@@ -140,7 +140,8 @@ use Illuminate\Support\Facades\Route;
 | Cancelaciones
 |--------------------------------------------------------------------------
 */
-
+    Route::any('/Salida/Cancelacion','CancelacionesController@Cancelaciones')
+        ->name('cliente.salida.cancelacion');
 /*
 |--------------------------------------------------------------------------
 | end Cancelaciones

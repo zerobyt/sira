@@ -75,7 +75,7 @@ class IngresoSimpleController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $response = ['return'=>'error','mensaje'=>'Error al recibir los valores requeridos'];
+            $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
             return response()->json($response, JSON_UNESCAPED_UNICODE );
         }
 
@@ -143,7 +143,7 @@ class IngresoSimpleController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $response = ['return'=>'error','mensaje'=>'Error al recibir los valores requeridos'];
+            $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
             return response()->json($response, JSON_UNESCAPED_UNICODE );
         }
 

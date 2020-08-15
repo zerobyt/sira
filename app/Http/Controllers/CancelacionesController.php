@@ -29,7 +29,7 @@ class CancelacionesController extends Controller
         $this->username = Config::get('app.vucemsira.user');
         $this->password = Config::get('app.vucemsira.password');
         $this->camir = Config::get('app.vucemsira.camir');
-        $this->$endpoint = Config::get('app.vucemsira.endpoint_cancelaciones');
+        $this->endpoint = Config::get('app.vucemsira.endpoint_cancelaciones');
 
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
@@ -51,6 +51,46 @@ class CancelacionesController extends Controller
         $this->cliente = new nusoap_client($this->endpoint.'?wsdl','wsdl');
         $this->cliente->setEndpoint($this->endpoint);
         $this->cliente->setHeaders($header);
+    }
+
+    public function Cancelaciones(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'consecutivo' => 'required',
+            'idAsociado' => 'required',
+            'tipoOperacion' => 'required',
+            'motivoCancelacion' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
+            return response()->json($response, JSON_UNESCAPED_UNICODE );
+        }
+
+        $data = ['arg0'=>
+                    [
+                        //AQUI VA EL CONSECUTIVO GENERADO POR EL EMISOR DE LA TRANSMISION
+                        'consecutivo'=>$request->consecutivo,
+                        //AQUI VA EL ID ASOCIADO RECIBIDO EN LA NOTIFICACIÓN
+                        'idAsociado'=>$request->idAsociado,
+                        //AQUI VA LA FECHA ACTUAL
+                        'fechaRegistro'=>gmdate('Y-m-d\TH:i:s\Z'),
+                        //AQUI VA EL TIPO DE MOVIMIENTO SIEMPRE 18 PARA CANCELACIONES
+                        'tipoMovimiento' => '18',
+                        //1= FERROS 2= AEREOS 3=MUM
+                        'detalleMovimiento'=>'2',
+                        //1= IMPORTACIÓN 2= EXPORTACIÓN
+                        'tipoOperacion'=>$request->tipoOperacion,
+                        //AQUI VA EL CAMIR
+                        'cveRecintoFiscalizado'=>$this->camir,
+                        //AQUÍ VA H = HOUSE EN ESTE CASO
+                        'motivoCancelacion'=>$request->motivoCancelacion
+                    ]
+
+                ];
+            $call = $this->cliente->call('cancelacion',$data);
+            return response()->json($call, JSON_UNESCAPED_UNICODE );
+            //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
     }
 
 }

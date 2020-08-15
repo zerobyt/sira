@@ -77,10 +77,10 @@ class IngresoParcialController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $response = ['return'=>'error','mensaje'=>'Error al recibir los valores requeridos'];
+            $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
             return response()->json($response, JSON_UNESCAPED_UNICODE );
         }
-
+        
         $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR MASTER IMM RECINTO 262';
         $vins = isset($request->vins) ? $request->vins : [];
 
@@ -154,7 +154,7 @@ class IngresoParcialController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $response = ['return'=>'error','mensajeS'=>'Error al recibir los valores requeridos'];
+            $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
             return response()->json($response, JSON_UNESCAPED_UNICODE );
         }
 
@@ -181,25 +181,10 @@ class IngresoParcialController extends Controller
                             'tipoIngreso'=>'H'
                         ]
                     ],
-                    //EN INGRESO PARCIAL POR HOUSE EL SIGUIENTE SEGMENTO VA VACIÓ
-                    ['informacionIngresoParcial'=>
-                        [
-                            'tipoMercancia'=>'',
-                            'fechaInicioDescarga'=>'',
-                            'fechaFinDescarga'=>'',
-                            'peso' => '',
-                            'numeroParcialidad'=>'',
-                            'cantidad'=>'',
-                            'umc'=>'',
-                            'condicionCarga'=>'',
-                            'observaciones'=>'',
-                            'vins'=>'',
-                        ]
-                    ],
                     ['guiasHouse'=>
                         [
                             //AQUÍ VA LA GUÍA HOUSE QUE SE VA A INGRESAR
-                            'guiaHouse'=>'',
+                            'guiaHouse'=>$request->guiaHouse,
                             //ESTADIA EN EL RECINTO (1,3,5....DIAS)
                             'tipoMercancia'=>'1',
                             //FECHA EN LA QUE SE INCIO LA DESCARGA DE LA MERCANCIA EN EL RECINTO
@@ -207,7 +192,7 @@ class IngresoParcialController extends Controller
                             //FECHA EN LA QUE SE TERMINO LA DESCARGA DE LA MERCANCIA EN EL RECINTO
                             'fechaFinDescarga'=>$request->fechaFinDescarga,
                             //NUMERO DE LA PARCIALIDAD DEBE SER UN NUMERO CONSECUTIVO Y RESPETAR EL ORDEN SEGUN LAS PARCIALIDADES A INGRESAR
-                            'numeroParcialidad'=>'',
+                            'numeroParcialidad'=>$request->numeroParcialidad,
                             //PESO DE LA MERCANCIA EN KG QUE SE VA A INGRESAR
                             'peso' => $request->peso,
                             //CANTIDAD DE PIEZAS
@@ -217,7 +202,7 @@ class IngresoParcialController extends Controller
                             //1:OPTIMAS CONDICIONES, 2:CARGA MOJADA, 3:CARGA DAÑADA
                             'condicionCarga'=>$request->condicionCarga,
                             //OBSERVACIONES SOBRE LA MERCANCIA INGRESADA
-                            'observaciones'=>''
+                            'observaciones'=>$request->observaciones
                         ]
                     ]
                 ];
