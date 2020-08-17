@@ -68,6 +68,7 @@ class IngresoSimpleController extends Controller
             'consecutivo' => 'required',
             'idAsociado' => 'required',
             'tipoOperacion' => 'required',
+            'tipoMercancia' => 'required',
             'fechaInicioDescarga' => 'required',
             'fechaFinDescarga' => 'required',
             'peso' => 'required',
@@ -105,7 +106,7 @@ class IngresoSimpleController extends Controller
                 ,'informacionIngreso' =>
                     [
                         //AQUI VAN VALORES DE CATALOGO QUE ENVIA RF 1=3 DÍAS, 2=45 DÍAS, 3=60 DÍAS
-                        'tipoMercancia'=>'',
+                        'tipoMercancia'=>$request->tipoMercancia,
                         //AQUI VA EL FECHA EN QUE INICIA LA DESCARGA FORMATO YYYY-MM-DDTHH:MM:SSZ
                         'fechaInicioDescarga'=>$request->fechaInicioDescarga,
                         //AQUI VA EL FECHA EN QUE TERMINA LA DESCARGA FORMATO YYYY-MM-DDTHH:MM:SSZ
@@ -135,6 +136,7 @@ class IngresoSimpleController extends Controller
             'consecutivo' => 'required',
             'idAsociado' => 'required',
             'tipoOperacion' => 'required',
+            'tipoMercancia' => 'required',
             'fechaInicioDescarga' => 'required',
             'fechaFinDescarga' => 'required',
             'peso' => 'required',
@@ -178,7 +180,7 @@ class IngresoSimpleController extends Controller
         $informacionIngreso = ['informacionIngreso' =>
                     [
                         //AQUI VAN VALORES DE CATALOGO QUE ENVIA RF 1=3 DÍAS, 2=45 DÍAS, 3=60 DÍAS
-                        'tipoMercancia'=>'',
+                        'tipoMercancia'=>$request->tipoMercancia,
                         //AQUI VA EL FECHA EN QUE INICIA LA DESCARGA FORMATO YYYY-MM-DDTHH:MM:SSZ
                         'fechaInicioDescarga'=>$request->fechaInicioDescarga,
                         //AQUI VA EL FECHA EN QUE TERMINA LA DESCARGA FORMATO YYYY-MM-DDTHH:MM:SSZ
