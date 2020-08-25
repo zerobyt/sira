@@ -1,0 +1,54 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.ingresosimple.recintos.www.ventanillaunica.gob.mx" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <soapenv:Header>
+  <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+<wsse:UsernameToken >
+<wsse:Username>MAR870122MX9</wsse:Username>
+<wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq</wsse:Password>
+</wsse:UsernameToken>
+<wsu:Timestamp wsu:Id="Timestamp-5c9f0ef0-ab45-421d-a633-4c4fad26d945">
+        <wsu:Created>2020-07-31T17:12:37Z</wsu:Created>
+        <wsu:Expires>2020-07-31T23:59:25Z</wsu:Expires>
+      </wsu:Timestamp>
+</wsse:Security>
+   </soapenv:Header>
+   <soapenv:Body>
+      <ws:salidaPedimento>
+         <!--Optional:-->
+         <arg0>
+            <informacionGeneral>
+               <!--Optional:-->
+               <consecutivo>2000000GG</consecutivo>
+               <idAsociado>2000000CH</idAsociado>
+               <fechaRegistro>2020-07-31T19:38:59Z</fechaRegistro>
+               <tipoMovimiento>11</tipoMovimiento>
+               <detalleMovimiento>2</detalleMovimiento>
+               <tipoOperacion>1</tipoOperacion>
+               <cveRecintoFiscalizado>0702</cveRecintoFiscalizado>
+            </informacionGeneral>
+            <tipoSalida>H</tipoSalida>
+            <master>
+               <pedimento>1234567</pedimento>
+               <aduana>070</aduana>
+               <patente>9999</patente>
+               <cvePedimento>T3</cvePedimento>
+               <numMaster>109-20200728</numMaster>
+               <mercancia>
+                  <numPiezas>220</numPiezas>
+                  <umc></umc>
+                  <ump>K</ump>
+                  <peso>400</peso>
+               </mercancia>
+               <house>
+                  <numHouse>ROS11120200728</numHouse>
+                  <mercancia>
+                     <numPiezas>220</numPiezas>
+                     <umc></umc>
+                     <ump>K</ump>
+                     <peso>400</peso>
+                  </mercancia>
+               </house>
+            </master>
+         </arg0>
+      </ws:salidaPedimento>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,30 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.ingresosimple.recintos.www.ventanillaunica.gob.mx" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+     <soapenv:Header>
+<wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+<wsse:UsernameToken>
+<wsse:Username>MAR870122MX9</wsse:Username><!--Es el usuario definido por el SAT para el acceso a la VUCEM. Es del tamaño de un RFC (12 o 13 caracteres)-->
+<wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq</wsse:Password>
+</wsse:UsernameToken>
+<wsu:Timestamp wsu:Id="Timestamp-5c9f0ef0-ab45-421d-a633-4c4fad26d945">
+      <wsu:Created>2020-07-31T16:24:58Z</wsu:Created>
+      <wsu:Expires>2021-05-29T23:44:58Z</wsu:Expires>
+</wsu:Timestamp>
+</wsse:Security>
+</soapenv:Header>
+   <soapenv:Body>
+      <ws:cancelacion>
+         <!--Optional:-->
+         <arg0>
+            <!--Optional:-->
+            <consecutivo>2000000B6</consecutivo>
+            <idAsociado>2000000B5</idAsociado>
+            <fechaRegistro>2020-07-31T19:38:59Z</fechaRegistro>
+            <tipoMovimiento>18</tipoMovimiento>
+            <detalleMovimiento>1</detalleMovimiento>
+            <tipoOperacion>1</tipoOperacion>
+            <cveRecintoFiscalizado>4718</cveRecintoFiscalizado>
+            <motivoCancelacion>1</motivoCancelacion>
+         </arg0>
+      </ws:cancelacion>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -77,7 +77,7 @@ class IngresoSimpleController extends Controller
 
         if ($validator->fails()) {
             $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
-            return response()->json($response, JSON_UNESCAPED_UNICODE );
+            return response()->json($response, JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE  );
         }
 
         $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR MASTER IMM RECINTO 262';
@@ -122,7 +122,7 @@ class IngresoSimpleController extends Controller
             ];
 
             $call = $this->cliente->call('ingresoSimple',$data);
-            return response()->json($call, JSON_UNESCAPED_UNICODE );
+            return response()->json($call, JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE  );
             //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
     }
     /*end IngresoSimple por Guía Master*/
@@ -130,8 +130,6 @@ class IngresoSimpleController extends Controller
     /*IngresoSimple por Guía House*/
     public function IngresoSimpleHouse(Request $request)
     {
-        //Ejemplo de Request:
-        //http://localhost/sira/IngresoSimple/House?tipoOperacion=1&guiasHouse=TRESABRIL27%2CCUATROABRIL27%2CCINCOABRIL27&consecutivo=20000006Q&idAsociado=20000006Q&fechaInicioDescarga=2020-08-14T09%3A11%3A32-05%3A00&fechaFinDescarga=2020-08-14T09%3A50%3A00-05%3A00&peso=301.0&condicionCarga=1
         $validator = Validator::make($request->all(), [
             'consecutivo' => 'required',
             'idAsociado' => 'required',
@@ -146,7 +144,7 @@ class IngresoSimpleController extends Controller
 
         if ($validator->fails()) {
             $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
-            return response()->json($response, JSON_UNESCAPED_UNICODE );
+            return response()->json($response, JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE );
         }
 
         $ArrayHouses = [];
@@ -203,9 +201,9 @@ class IngresoSimpleController extends Controller
         $data = ['arg0'=>$merge_request];
 
 
-        //$call = $this->cliente->call('ingresoSimple',$data);
-        //return response()->json($call, JSON_UNESCAPED_UNICODE );
-        return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
+        $call = $this->cliente->call('ingresoSimple',$data);
+        return response()->json($call, JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE );
+        //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
     }
     /*end IngresoSimple por Guía House*/
 }

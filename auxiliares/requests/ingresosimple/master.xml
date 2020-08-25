@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns9850="http://tempuri.org" xmlns:ser="http://service.common.www.ventanillaunica.gob.mx/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <SOAP-ENV:Header>
+      <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <wsse:UsernameToken>
+            <wsse:Username>MAR870122MX9</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq</wsse:Password>
+         </wsse:UsernameToken>
+         <wsu:Timestamp wsu:Id="Timestamp-5c9f0ef0-ab45-421d-a633-4c4fad26d945">
+            <wsu:Created>2020-05-11T16:52:10Z</wsu:Created>
+            <wsu:Expires>2020-05-11T16:53:09Z</wsu:Expires>
+         </wsu:Timestamp>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <SOAP-ENV:Body>
+      <ingresoSimple xmlns="http://ws.ingresosimple.recintos.www.ventanillaunica.gob.mx">
+         <arg0 xmlns="">
+            <informacionGeneral>
+               <consecutivo>200000073</consecutivo>
+               <idAsociado>200000073</idAsociado>
+               <fechaRegistro>2020-05-11T14:11:32-05:00</fechaRegistro>
+               <tipoMovimiento>1</tipoMovimiento>
+               <detalleMovimiento>2</detalleMovimiento>
+               <tipoOperacion>1</tipoOperacion>
+               <cveRecintoFiscalizado>4718</cveRecintoFiscalizado>
+               <tipoIngreso>M</tipoIngreso>
+            </informacionGeneral>
+            <informacionIngreso>
+               <tipoMercancia>1</tipoMercancia>
+               <fechaInicioDescarga>2020-05-08T14:11:35-05:00</fechaInicioDescarga>
+               <fechaFinDescarga>2020-05-08T15:11:32-05:00</fechaFinDescarga>
+               <peso>301.0</peso>
+               <condicionCarga>1</condicionCarga>
+               <observaciones>INGRESO SIMPLE POR MASTER IMM RECINTO 262</observaciones>
+            </informacionIngreso>
+         </arg0>
+      </ingresoSimple>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
