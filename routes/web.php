@@ -152,5 +152,5 @@ use Illuminate\Support\Facades\Route;
 //Inicia sección para consulta de información API Rest
 /*======================================================================================*/
 
-Route::get('/api/guiasmaster/', 'ApiController@verGuiasMaster')
+Route::any('/api/guiasmaster/', 'ApiController@verGuiasMaster')
     ->name('guiasmaster');

@@ -1,0 +1,112 @@
+<S:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <env:Header>
+      <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+            <wsse:Username>MAR870122MX9</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </env:Header>
+   <S:Body>
+      <ns0:notificacionIngresoMercancia xmlns:ns0="http://service.common.www.ventanillaunica.gob.mx/">
+         <arg0>
+            <informacionGeneral>
+               <consecutivo>1900000RR</consecutivo>
+               <idAsociado>1900000RR</idAsociado>
+               <fechaRegistro>2019-12-19T10:04:43-06:00</fechaRegistro>
+               <tipoMovimiento>0</tipoMovimiento>
+               <detalleMovimiento>2</detalleMovimiento>
+               <tipoOperacion>1</tipoOperacion>
+               <cveRecintoFiscalizado>4718</cveRecintoFiscalizado>
+            </informacionGeneral>
+            <transporte>
+               <numeroVueloBuqueViajeImo>2200223</numeroVueloBuqueViajeImo>
+               <tipoTransporte>A</tipoTransporte>
+               <fechaHoraDeArribo>2019-12-12T10:30:05-06:00</fechaHoraDeArribo>
+               <origenVueloBuque>CVG</origenVueloBuque>
+               <numeroManifiesto>010102120191218QRO</numeroManifiesto>
+               <caat>2415</caat>
+               <peso xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               <ump xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               <piezas>0.0</piezas>
+            </transporte>
+            <guiaMaster>
+               <numeroGuiaBl>222-20191218</numeroGuiaBl>
+               <caat>2415</caat>
+               <tipoOperacion>1</tipoOperacion>
+               <valorDeclarado xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               <moneda xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               <peso>2.08</peso>
+               <ump>E</ump>
+               <volumen xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               <piezas>305.0</piezas>
+               <idParcialidad>T</idParcialidad>
+               <secuencia xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               <observaciones xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               <mercancia>
+                  <secuencia>1</secuencia>
+                  <pais>CVG</pais>
+                  <descripcion>Mensajeria y Paqueteria</descripcion>
+                  <moneda xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <umc xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <peso>2.08</peso>
+                  <ump>E</ump>
+                  <volumen xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <observaciones xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               </mercancia>
+               <personas>
+                  <tipoPersona>SH</tipoPersona>
+                  <nombre>DHL EXPRESS</nombre>
+                  <calleDomicilio>AEROPUERTO QUERETARO</calleDomicilio>
+                  <numeroInterior xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <numeroExterior xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <cp xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <municipio>QUERETARO</municipio>
+                  <entidadFederativa>MEXICO</entidadFederativa>
+                  <pais>MX</pais>
+                  <rfcOTaxId xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <correoElectronico xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <ciudad>QUERETARO</ciudad>
+                  <contacto xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <telefono xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <correoContacto xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               </personas>
+               <personas>
+                  <tipoPersona>TIN TIN</tipoPersona>
+                  <nombre>ABX AIR INC</nombre>
+                  <calleDomicilio>CALLE ABX</calleDomicilio>
+                  <numeroInterior xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <numeroExterior xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <cp xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <municipio>CINCINNATI</municipio>
+                  <entidadFederativa>UNITED STATES</entidadFederativa>
+                  <pais>US</pais>
+                  <rfcOTaxId xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <correoElectronico xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <ciudad>CINCINNATI</ciudad>
+                  <contacto xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <telefono xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <correoContacto xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               </personas>
+               <personas>
+                  <tipoPersona>IF</tipoPersona>
+                  <nombre>ABX AIR INC</nombre>
+                  <calleDomicilio xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <numeroInterior xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <numeroExterior xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <cp xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <municipio>CINCINNATI</municipio>
+                  <entidadFederativa xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <pais xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <rfcOTaxId xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <correoElectronico xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <ciudad>CINCINNATI</ciudad>
+                  <contacto xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <telefono xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                  <correoContacto xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+               </personas>
+            </guiaMaster>
+         </arg0>
+      </ns0:notificacionIngresoMercancia>
+   </S:Body>
+</S:Envelope>
