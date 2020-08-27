@@ -6,6 +6,11 @@
 
 ## Información para el desarrollo
 
+```sh
+    PHP: 7.2.19
+    Laravel Framework: 7.26.1
+```
+
 ![alt text](./VUCEM.png)
 
 * Guía de Apoyo para Implementación SIRA Version 3.7 (Sección Recintos Fiscalizados)

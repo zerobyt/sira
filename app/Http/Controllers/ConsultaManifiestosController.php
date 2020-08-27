@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use App\Helpers\nusoap_client;
 use Config;
 
+
 class ConsultaManifiestosController extends Controller
 {
     public $username;
@@ -22,6 +23,8 @@ class ConsultaManifiestosController extends Controller
     public $camir;
     public $endpoint;
     private $cliente;
+    private $namespace;
+    private $soapAction;
     private $trafico = 'A';
 
     public function __construct()
@@ -30,6 +33,8 @@ class ConsultaManifiestosController extends Controller
         $this->password = Config::get('app.vucemsira.password');
         $this->camir = Config::get('app.vucemsira.camir');
         $this->endpoint = Config::get('app.vucemsira.endpoint_manifiesto');
+        $this->namespace = 'http://ws.consultamanifiestos.recintos.www.ventanillaunica.gob.mx';
+        $this->soapAction = 'http://ws.consultamanifiestos.recintos.www.ventanillaunica.gob.mx/ConsultaManifestRemote/consultaManifiestoRequest';
 
         // Seguridad
         $created = gmdate('Y-m-d\TH:i:s\Z');
@@ -51,6 +56,7 @@ class ConsultaManifiestosController extends Controller
         $this->cliente = new nusoap_client($this->endpoint.'?wsdl','wsdl');
         $this->cliente->setEndpoint($this->endpoint);
         $this->cliente->setHeaders($header);
+        //$this->cliente->setCredentials($this->username, $this->password);
     }
 
     /**
@@ -64,7 +70,7 @@ class ConsultaManifiestosController extends Controller
     public function ConsultaManifiestos(Request $request)
     {
         $data = ['arg0'=>['camir'=>$this->camir,'trafico'=>$this->trafico,'manifiesto'=>$request->manifiesto]];
-        $call = $this->cliente->call('consultaManifiesto',$data);
+        $call = $this->cliente->call('consultaManifiesto', $data, $this->namespace, $this->soapAction);
         return response()->json($call, JSON_UNESCAPED_UNICODE );
     }
 }
