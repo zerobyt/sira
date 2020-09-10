@@ -12,20 +12,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Transporte extends Model
+class LogDataRequest extends Model
 {
-    protected $table = 'transporte';
+    protected $table = 'logdatarequest';
     public $timestamps = true;
-    public $hidden = ['id','created_at','updated_at','deleted_at','idInfoGeneral'];
     protected $fillable = [
-        'numeroVueloBuqueViajeImo',
-        'tipoTransporte',
-        'fechaHoraDeArribo',
-        'origenVueloBuque',
-        'numeroManifiesto',
-        'caat',
-        'peso',
-        'ump',
-        'piezas'
+        'consecutivo',
+        'idAsociado',
+        'tipo_request',
+        'data_request',
+        'data_response_json',
+        'data_response_xml'
     ];
 }

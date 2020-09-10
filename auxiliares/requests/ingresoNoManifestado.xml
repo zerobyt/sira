@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns6003="http://tempuri.org" xmlns:ser="http://service.common.www.ventanillaunica.gob.mx/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <SOAP-ENV:Header>
+      <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <wsse:UsernameToken>
+            <wsse:Username>MAR870122MX9</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq</wsse:Password>
+         </wsse:UsernameToken>
+         <wsu:Timestamp wsu:Id="Timestamp-5c9f0ef0-ab45-421d-a633-4c4fad26d945">
+            <wsu:Created>2020-05-11T16:48:54Z</wsu:Created>
+            <wsu:Expires>2020-05-11T16:47:53Z</wsu:Expires>
+         </wsu:Timestamp>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <SOAP-ENV:Body>
+      <ingresoNoManifestado xmlns="http://ws.ingresosimple.recintos.www.ventanillaunica.gob.mx">
+         <arg0 xmlns="">
+            <informacionGeneral>
+               <consecutivo>20000006Q</consecutivo>
+               <idAsociado>20000006Q</idAsociado
+               <fechaRegistro>2020-05-11T14:11:32-05:00</fechaRegistro>
+               <tipoMovimiento>4</tipoMovimiento>
+               <detalleMovimiento>2</detalleMovimiento>
+               <tipoOperacion>1</tipoOperacion>
+               <cveRecintoFiscalizado>4718</cveRecintoFiscalizado>
+            </informacionGeneral>
+            <informacionIngreso>
+               <tipoMercancia>1</tipoMercancia><!--Estadía en el recinto 1. 3 días 3. 60 días:-->
+               <fechaInicioDescarga>2020-01-21T18:21:34.290Z</fechaInicioDescarga><!--Fecha en a que se descargó la mercancía al recinto:-->
+               <fechaFinDescarga>2020-01-21T18:51:34.290Z</fechaFinDescarga><!--Fecha en la que terminó la descarga de la mercancía de en el recinto:-->
+               <peso>16.1</peso><!--Peso de la mercancía que se va ingresar:-->
+               <condicionCarga>1</condicionCarga><!--1:Optimas condiciones, 2:Carga Mojada, 3:Carga dañada :-->
+               <observaciones>observaciones</observaciones>
+            </informacionIngreso>
+            <transporte>
+               <numeroVueloBuqueViajeImo>5544</numeroVueloBuqueViajeImo>
+               <tipoTransporte>A</tipoTransporte>
+               <fechaHoraDeArribo>2020-04-14T11:55:00-05:00</fechaHoraDeArribo>
+               <origenVueloBuque>CTG</origenVueloBuque>
+               <numeroManifiesto>1115544202004144701ROSAB</numeroManifiesto>
+               <caat>2E9T</caat>
+               <peso>16.1</peso>
+               <ump>K</ump>
+               <piezas>23.0</piezas>
+            </transporte>
+            <guiaMaster>
+               <numeroGuiaBl>222-20200424</numeroGuiaBl>
+               <caat>2E9T</caat>
+               <tipoOperacion>1</tipoOperacion>
+               <peso>16.1</peso>
+               <ump>K</ump>
+               <volumen>23.0</volumen>
+               <umv>M3</umv>
+               <piezas>3000.0</piezas>
+               <idParcialidad>T</idParcialidad>
+               <secuencia>1</secuencia>
+               <observaciones>9111500</observaciones>
+               <mercancia>
+                  <secuencia>1</secuencia>
+                  <pais>CVG</pais>
+                  <descripcion>Mensajeria y Paqueteria</descripcion>
+                  <peso>14.1</peso>
+                  <ump>K</ump>
+                  <volumen>23.0</volumen>
+                  <vin>
+                     <vin>123456789</vin>
+                  </vin>
+                  <vin>
+                     <vin>987654321</vin>
+                  </vin>
+                  <imo>
+                     <imo>193746285</imo>
+                  </imo>
+                  <imo>
+                     <imo>582647391</imo>
+                  </imo>
+               </mercancia>
+               <personas>
+                  <tipoPersona>TIN TIN</tipoPersona>
+                  <nombre>NOMBRE PERSONA</nombre>
+                  <calleDomicilio>CALLE DOMICILIO</calleDomicilio>
+                  <numeroInterior />
+                  <numeroExterior>34</numeroExterior>
+                  <cp>03500</cp>
+                  <municipio>VENUSTIANO CARRANZA</municipio>
+                  <entidadFederativa>MEXICO</entidadFederativa>
+                  <pais>MEX</pais>
+                  <rfcOTaxId>ABC94269</rfcOTaxId>
+                  <correoElectronico>correo@correo.com</correoElectronico>
+                  <ciudad>CMDX</ciudad>
+                  <contacto>NOMBRE DE CONTACTO</contacto>
+                  <telefono>555555555</telefono>
+                  <correoContacto>correo@correo.com</correoContacto>
+               </personas>
+               <personas>
+                  <tipoPersona>SH</tipoPersona>
+                  <nombre>NOMBRE PERSONA SH</nombre>
+                  <calleDomicilio>CALLE DOMICILIO</calleDomicilio>
+                  <numeroInterior />
+                  <numeroExterior>34</numeroExterior>
+                  <cp>03500</cp>
+                  <municipio>VENUSTIANO CARRANZA</municipio>
+                  <entidadFederativa>MEXICO</entidadFederativa>
+                  <pais>MEX</pais>
+                  <rfcOTaxId>ABC94269</rfcOTaxId>
+                  <correoElectronico>correo@correo.com</correoElectronico>
+                  <ciudad>CMDX</ciudad>
+                  <contacto>NOMBRE DE CONTACTO</contacto>
+                  <telefono>555555555</telefono>
+                  <correoContacto>correo@correo.com</correoContacto>
+               </personas>
+               <personas>
+                  <tipoPersona>N1</tipoPersona>
+                  <nombre>NOMBRE PERSONA N1</nombre>
+                  <calleDomicilio>CALLE DOMICILIO</calleDomicilio>
+                  <numeroInterior />
+                  <numeroExterior>34</numeroExterior>
+                  <cp>03500</cp>
+                  <municipio>VENUSTIANO CARRANZA</municipio>
+                  <entidadFederativa>MEXICO</entidadFederativa>
+                  <pais>MEX</pais>
+                  <rfcOTaxId>ABC94269</rfcOTaxId>
+                  <correoElectronico>correo@correo.com</correoElectronico>
+                  <ciudad>CMDX</ciudad>
+                  <contacto>NOMBRE DE CONTACTO</contacto>
+                  <telefono>555555555</telefono>
+                  <correoContacto>correo@correo.com</correoContacto>
+               </personas>
+                <guiaHouse>
+                  <numeroGuiaBl>HOUSE003ISELA4701G</numeroGuiaBl>
+                  <caat>2415</caat>
+                  <tipoOperacion>1</tipoOperacion>
+                  <valorDeclarado>23.0</valorDeclarado>
+                  <moneda>USD</moneda>
+                  <peso>1.0</peso>
+                  <ump>K</ump>
+                  <volumen>23.0</volumen>
+                  <umv>M3</umv>
+                  <piezas>1.0</piezas>
+                  <secuencia>1</secuencia>
+                  <observaciones>9111496</observaciones>
+                  <mercancia>
+                     <secuencia>1</secuencia>
+                     <pais>MEX</pais>
+                     <descripcion>CAMERA CASE</descripcion>
+                     <peso>1.0</peso>
+                     <ump>K</ump>
+                     <volumen>23.0</volumen>
+                     <vin>
+                        <vin>123456789</vin>
+                     </vin>
+                  </mercancia>
+                  <personas>
+                     <tipoPersona>TIN TIN</tipoPersona>
+                     <nombre>GUANGZHOU SAILU INFOTECH CO LTD</nombre>
+                     <calleDomicilio>NAN HANG HUO YUN DA LOU YUAN NEI CA</calleDomicilio>
+                     <cp>94345</cp>
+                     <municipio>GUANGZHOU CN</municipio>
+                     <entidadFederativa>CHINA</entidadFederativa>
+                     <pais>CHN</pais>
+                     <rfcOTaxId>46578498</rfcOTaxId>
+                  </personas>
+                  <personas>
+                     <tipoPersona>SH</tipoPersona>
+                     <nombre>JOSE ANTONIO DE LA TORRE BRAVO</nombre>
+                     <calleDomicilio>AV LA CIMA 296 COTO J CASA 27 LA CI</calleDomicilio>
+                     <cp>03400</cp>
+                     <municipio>GUADALAJARA</municipio>
+                     <entidadFederativa>MEXICO</entidadFederativa>
+                     <pais>MEX</pais>
+                     <rfcOTaxId>46578100</rfcOTaxId>
+                  </personas>
+                  <personas>
+                     <tipoPersona>IF</tipoPersona>
+                     <nombre>DHL EXPRESS</nombre>
+                     <calleDomicilio>236 WENDELL FORD BLVD</calleDomicilio>
+                     <cp>94345</cp>
+                     <municipio>CINCINNATI</municipio>
+                     <entidadFederativa>ESTADOS UNIDOS</entidadFederativa>
+                     <pais>USA</pais>
+                     <rfcOTaxId>123456</rfcOTaxId>
+                  </personas>
+                  <personas>
+                     <tipoPersona>N1</tipoPersona>
+                     <nombre>DHL EXPRESS</nombre>
+                     <calleDomicilio>CALLE BENITO JUAREZ 33</calleDomicilio>
+                     <cp>04250</cp>
+                     <municipio>CINCINNATI</municipio>
+                     <entidadFederativa>ESTADOS UNIDOS</entidadFederativa>
+                     <pais>USA</pais>
+                     <rfcOTaxId/>
+                  </personas>
+               </guiaHouse>
+               <guiaHouse>
+                  <numeroGuiaBl>HOUSE004ISELA4701F</numeroGuiaBl>
+                  <caat>2415</caat>
+                  <tipoOperacion>1</tipoOperacion>
+                  <valorDeclarado>23.0</valorDeclarado>
+                  <moneda>USD</moneda>
+                  <peso>1.0</peso>
+                  <ump>K</ump>
+                  <volumen>23.0</volumen>
+                  <umv>M3</umv>
+                  <piezas>1.0</piezas>
+                  <secuencia>2</secuencia>
+                  <observaciones>9111497</observaciones>
+                  <mercancia>
+                     <secuencia>1</secuencia>
+                     <pais>CHN</pais>
+                     <descripcion>CAMERA CASE</descripcion>
+                     <peso>1.0</peso>
+                     <ump>K</ump>
+                     <volumen>23.0</volumen>
+                     <vin>
+                        <vin>123456789</vin>
+                     </vin>
+                  </mercancia>
+                  <personas>
+                     <tipoPersona>TIN TIN</tipoPersona>
+                     <nombre>GUANGZHOU SAILU INFOTECH CO LTD</nombre>
+                     <calleDomicilio>NAN HANG HUO YUN DA LOU YUAN NEI CA</calleDomicilio>
+                     <cp>94345</cp>
+                     <municipio>GUANGZHOU CN</municipio>
+                     <entidadFederativa>CHINA</entidadFederativa>
+                     <pais>CHN</pais>
+                     <rfcOTaxId>46578498</rfcOTaxId>
+                  </personas>
+                  <personas>
+                     <tipoPersona>SH</tipoPersona>
+                     <nombre>JOSE ANTONIO DE LA TORRE BRAVO</nombre>
+                     <calleDomicilio>AV LA CIMA 296 COTO J CASA 27 LA CI</calleDomicilio>
+                     <cp>03400</cp>
+                     <municipio>GUADALAJARA</municipio>
+                     <entidadFederativa>MEXICO</entidadFederativa>
+                     <pais>MEX</pais>
+                     <rfcOTaxId>46578100</rfcOTaxId>
+                  </personas>
+                  <personas>
+                     <tipoPersona>IF</tipoPersona>
+                     <nombre>DHL EXPRESS</nombre>
+                     <calleDomicilio>236 WENDELL FORD BLVD</calleDomicilio>
+                     <cp>94345</cp>
+                     <municipio>CINCINNATI</municipio>
+                     <entidadFederativa>ESTADOS UNIDOS</entidadFederativa>
+                     <pais>USA</pais>
+                     <rfcOTaxId>123456</rfcOTaxId>
+                  </personas>
+                  <personas>
+                     <tipoPersona>N1</tipoPersona>
+                     <nombre>DHL EXPRESS</nombre>
+                     <calleDomicilio>CALLE BENITO JUAREZ 33</calleDomicilio>
+                     <cp>04250</cp>
+                     <municipio>CINCINNATI</municipio>
+                     <entidadFederativa>ESTADOS UNIDOS</entidadFederativa>
+                     <pais>USA</pais>
+                     <rfcOTaxId/>
+                  </personas>
+               </guiaHouse>
+            </guiaMaster>
+         </arg0>
+      </ingresoNoManifestado>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

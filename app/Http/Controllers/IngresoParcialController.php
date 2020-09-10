@@ -13,14 +13,17 @@ use App\Models\Mercancia;
 use App\Models\Personas;
 use App\Models\Transporte;
 use App\Models\Vin;
+use App\Models\LogDataRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use App\Helpers\nusoap_client;
 use Config;
+use Spatie\ArrayToXml\ArrayToXml;
 
 class IngresoParcialController extends Controller
 {
@@ -78,12 +81,11 @@ class IngresoParcialController extends Controller
 
         if ($validator->fails()) {
             $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
-            return response()->json($response, JSON_UNESCAPED_UNICODE );
+            return response()->json($response);
         }
-        
+
         $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR MASTER IMM RECINTO 262';
         $vins = isset($request->vins) ? $request->vins : [];
-
 
         $data = ['arg0'=>
                     ['informacionGeneral' =>
@@ -117,23 +119,36 @@ class IngresoParcialController extends Controller
                             //PESO DE LA MERCANCIA EN KG QUE SE VA A INGRESAR
                             'peso' => $request->peso,
                             //NUMERO DE LA PARCIALIDAD DEBE SER UN NUMERO CONSECUTIVO Y RESPETAR EL ORDEN SEGUN LAS PARCIALIDADES A INGRESAR
-                            'numeroParcialidad'=>'',
+                            'numeroParcialidad'=> $request->numeroParcialidad,
                             //CANTIDAD DE PIEZAS
-                            'cantidad'=>'',
+                            'cantidad'=> $request->cantidad,
                             //UNIDAD DE MEDIDA DE CANTIDAD
                             'umc'=>'PCS',
                             //1:OPTIMAS CONDICIONES, 2:CARGA MOJADA, 3:CARGA DAÑADA
-                            'condicionCarga'=>'1',
+                            'condicionCarga'=> $request->condicionCarga,
                             //OBSERVACIONES SOBRE LA MERCANCIA INGRESADA
-                            'observaciones'=>'',
+                            'observaciones'=> $observaciones,
                             //SI HAY VINS EN LA PARCIALIDAD SE DEFINE EL SEGMENTO SINO SOLO SE DECLARA <vin>NUMERO_VIN</vin>
                             'vins'=>$request->vins,
                         ]
                     ]
                 ];
+
+                //Retorna el arrayObject directo del WS de VUCEM
                 $call = $this->cliente->call('ingresoParcial',$data);
-                return response()->json($call, JSON_UNESCAPED_UNICODE );
-                //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
+                $response = json_encode($call,200,[], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+
+                //Guardando request en base de datos
+                $LogData = new LogDataRequest;
+                $LogData->consecutivo = $request->consecutivo;
+                $LogData->idAsociado = $request->idAsociado;
+                $LogData->tipo_request = 'ingresoParcialMaster';
+                $LogData->data_request = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+                $LogData->data_response_json = $response;
+                $LogData->data_response_xml = ArrayToXml::convert($call);
+                $LogData->save();
+
+                return response($response);
     }
     /*end IngresoParcial por Guía Master*/
 
@@ -206,9 +221,22 @@ class IngresoParcialController extends Controller
                         ]
                     ]
                 ];
+
+                //Retorna el arrayObject directo del WS de VUCEM
                 $call = $this->cliente->call('ingresoParcial',$data);
-                return response()->json($call, JSON_UNESCAPED_UNICODE );
-                //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
+                $response = json_encode($call,200,[], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+
+                //Guardando request en base de datos
+                $LogData = new LogDataRequest;
+                $LogData->consecutivo = $request->consecutivo;
+                $LogData->idAsociado = $request->idAsociado;
+                $LogData->tipo_request = 'ingresoParcialHouse';
+                $LogData->data_request = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+                $LogData->data_response_json = $response;
+                $LogData->data_response_xml = ArrayToXml::convert($call);
+                $LogData->save();
+
+                return response($response);
     }
     /*end IngresoParcial por Guía House*/
 

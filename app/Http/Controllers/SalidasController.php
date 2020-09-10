@@ -16,6 +16,7 @@ use App\Models\Vin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -63,6 +64,7 @@ class SalidasController extends Controller
     /*Salida por Guía Master*/
     public function SolicitudSalidaMaster(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'consecutivo' => 'required',
             'idAsociado' => 'required',
@@ -71,7 +73,7 @@ class SalidasController extends Controller
             'patente' => 'required',
             'cvePedimento' => 'required',
             'numMaster' => 'required',
-            'numPiezas' => 'required',
+            //'numPiezas' => 'required',
             'peso' => 'required'
         ]);
 
@@ -99,14 +101,13 @@ class SalidasController extends Controller
                         //AQUI VA EL CAMIR
                         'cveRecintoFiscalizado'=>$this->camir,
                     ]
-                ],
-                ['tipoSalida' => 'M'],
-                ['master' =>
+                ,'tipoSalida' => 'M'
+                ,'master' =>
                     [
                         //AQUI VA EL NÚMERO DE PEDIMENTO
                         'pedimento'=>$request->pedimento,
                         //AQUI VA EL NÚMERO DE ADUANA 070 = CDMX
-                        'aduana'=>'070',
+                        'aduana'=>'470',
                         //AQUI VA EL NÚMERO DE PATENTE
                         'patente'=>$request->patente,
                         //AQUI VA LA CLAVE DEL PEDIMENTO
@@ -129,7 +130,9 @@ class SalidasController extends Controller
             ];
 
         $call = $this->cliente->call('salidaPedimento',$data);
-        return response()->json($call, JSON_UNESCAPED_UNICODE );
+        $response = json_encode($call, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+
+        return response($response);
     }
 
     /*Confirmación de salida por Guía House*/
@@ -171,14 +174,13 @@ class SalidasController extends Controller
                         //AQUI VA EL CAMIR
                         'cveRecintoFiscalizado'=>$this->camir,
                     ]
-                ],
-                ['tipoSalida' => 'M'],
-                ['master' =>
+                ,'tipoSalida' => 'M'
+                ,'master' =>
                     [
                         //AQUI VA EL NÚMERO DE PEDIMENTO
                         'pedimento'=>$request->pedimento,
                         //AQUI VA EL NÚMERO DE ADUANA 070 = CDMX
-                        'aduana'=>'070',
+                        'aduana'=>'470',
                         //AQUI VA EL NÚMERO DE PATENTE
                         'patente'=>$request->patente,
                         //AQUI VA LA CLAVE DEL PEDIMENTO
@@ -201,7 +203,9 @@ class SalidasController extends Controller
             ];
 
         $call = $this->cliente->call('confirmacionDeSalida',$data);
-        return response()->json($call, JSON_UNESCAPED_UNICODE );
+        $response = json_encode($call, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+
+        return response($response);
     }
 
     /*Solicitud de salida por Guía House*/
@@ -251,7 +255,7 @@ class SalidasController extends Controller
                         //AQUI VA EL NÚMERO DE PEDIMENTO
                         'pedimento'=>$request->pedimento,
                         //AQUI VA EL NÚMERO DE ADUANA 070 = CDMX
-                        'aduana'=>'070',
+                        'aduana'=>'470',
                         //AQUI VA EL NÚMERO DE PATENTE
                         'patente'=>$request->patente,
                         //AQUI VA LA CLAVE DEL PEDIMENTO
@@ -287,7 +291,9 @@ class SalidasController extends Controller
             ];
 
         $call = $this->cliente->call('salidaPedimento',$data);
-        return response()->json($call, JSON_UNESCAPED_UNICODE );
+        $response = json_encode($call, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+
+        return response($response);
     }
 
     /*Confirmación de salida por Guía House*/
@@ -337,7 +343,7 @@ class SalidasController extends Controller
                         //AQUI VA EL NÚMERO DE PEDIMENTO
                         'pedimento'=>$request->pedimento,
                         //AQUI VA EL NÚMERO DE ADUANA 070 = CDMX
-                        'aduana'=>'070',
+                        'aduana'=>'470',
                         //AQUI VA EL NÚMERO DE PATENTE
                         'patente'=>$request->patente,
                         //AQUI VA LA CLAVE DEL PEDIMENTO
@@ -373,7 +379,9 @@ class SalidasController extends Controller
             ];
 
         $call = $this->cliente->call('confirmacionDeSalida',$data);
-        return response()->json($call, JSON_UNESCAPED_UNICODE );
+        $response = json_encode($call, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+
+        return response($response);
     }
 
 }

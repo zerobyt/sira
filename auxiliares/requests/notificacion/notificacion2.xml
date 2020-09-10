@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+   <env:Header>
+      <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+            <wsse:Username>MAR870122MX9</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">i1yzMzAa3RvVgMzNAmTnL0hvVmSRTYDOpmuTrO0+REFMnCTj+k+LFHmZRtgkMkEq</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </env:Header>
+   <S:Body>
+      <ns0:notificacionIngresoMercancia xmlns:ns0="http://service.common.www.ventanillaunica.gob.mx/">
+         <arg0>
+            <informacionGeneral>
+               <consecutivo>2000000WH</consecutivo>
+               <idAsociado>2000000WH</idAsociado>
+               <fechaRegistro>2020-08-17T17:04:06-05:00</fechaRegistro>
+               <tipoMovimiento>0</tipoMovimiento>
+               <detalleMovimiento>2</detalleMovimiento>
+               <tipoOperacion>1</tipoOperacion>
+               <cveRecintoFiscalizado>4718</cveRecintoFiscalizado>
+            </informacionGeneral>
+            <transporte>
+               <numeroVueloBuqueViajeImo>5733</numeroVueloBuqueViajeImo>
+               <tipoTransporte>A</tipoTransporte>
+               <fechaHoraDeArribo>2020-06-04T11:55:00-05:00</fechaHoraDeArribo>
+               <origenVueloBuque>CTG</origenVueloBuque>
+               <numeroManifiesto>262000020200817ZZZ</numeroManifiesto>
+               <caat>2E9T</caat>
+               <peso>1160.0</peso>
+               <ump>K</ump>
+               <piezas>680.0</piezas>
+            </transporte>
+            <guiaMaster>
+               <numeroGuiaBl>302-20200817</numeroGuiaBl>
+               <caat>2E9T</caat>
+               <tipoOperacion>1</tipoOperacion>
+               <peso>500.0</peso>
+               <ump>K</ump>
+               <volumen>23.0</volumen>
+               <piezas>150.0</piezas>
+               <idParcialidad>T</idParcialidad>
+               <secuencia>1</secuencia>
+               <mercancia>
+                  <secuencia>1</secuencia>
+                  <pais>CVG</pais>
+                  <descripcion>1 secuencia de mercancia directa de master 500 kilos y 150 piezas</descripcion>
+                  <cantidad>150.0</cantidad>
+                  <peso>500.0</peso>
+                  <ump>K</ump>
+                  <volumen>23.0</volumen>
+                  <vin>
+                     <vin>123456789</vin>
+                  </vin>
+                  <imo>
+                     <imo>CAO</imo>
+                  </imo>
+               </mercancia>
+               <personas>
+                  <tipoPersona>TIN TIN</tipoPersona>
+                  <nombre>ABX AIR INC</nombre>
+                  <calleDomicilio>CALLE ABX</calleDomicilio>
+                  <cp>03400</cp>
+                  <municipio>CINCINNATI</municipio>
+                  <entidadFederativa>UNITED STATES</entidadFederativa>
+                  <pais>US</pais>
+                  <rfcOTaxId>ABC94269</rfcOTaxId>
+               </personas>
+               <personas>
+                  <tipoPersona>SH</tipoPersona>
+                  <nombre>DHL EXPRESS</nombre>
+                  <calleDomicilio>CARRETERA GUADALAJARA CHAPALA KM 17</calleDomicilio>
+                  <cp>09660</cp>
+                  <municipio>GUADALAJARA</municipio>
+                  <entidadFederativa>MEXICO</entidadFederativa>
+                  <pais>MX</pais>
+                  <rfcOTaxId>ABC94444</rfcOTaxId>
+               </personas>
+               <personas>
+                  <tipoPersona>IF</tipoPersona>
+                  <nombre>ABX AIR INC</nombre>
+                  <calleDomicilio>CORRESPONDIENCIA 34</calleDomicilio>
+                  <cp>03400</cp>
+                  <municipio>CINCINNATI</municipio>
+                  <entidadFederativa>UNITED STATES OF AMERICA</entidadFederativa>
+                  <pais>US</pais>
+                  <rfcOTaxId>ABC94444</rfcOTaxId>
+               </personas>
+               <personas>
+                  <tipoPersona>N1</tipoPersona>
+                  <nombre>ASOCIADOS RL</nombre>
+                  <calleDomicilio>JIMENEZ 24</calleDomicilio>
+                  <cp>06720</cp>
+                  <municipio>MEXICO</municipio>
+                  <entidadFederativa>MEXICO</entidadFederativa>
+                  <pais>CH</pais>
+                  <rfcOTaxId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+               </personas>
+            </guiaMaster>
+         </arg0>
+      </ns0:notificacionIngresoMercancia>
+   </S:Body>
+</S:Envelope>

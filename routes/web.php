@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | Notificación de Ingreso de Mercancía
 |--------------------------------------------------------------------------
 */
-    Route::any('/', 'ServidorController@index');
+    Route::match(['get', 'post'], '/', 'ServidorController@index');
     Route::get('/wsdl', 'ServidorController@wsdl')->name('wsdl');
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +26,10 @@ use Illuminate\Support\Facades\Route;
 | Consulta alterna a Notificación de Ingreso de Mercancía
 |--------------------------------------------------------------------------
 */
-    Route::any('/ConsultaManifiestos', 'ConsultaManifiestosController@ConsultaManifiestos')
+    Route::match(['get', 'post'],'/ConsultaManifiestos', 'ConsultaManifiestosController@ConsultaManifiestos')
         ->name('cliente.consultamanifiestos');
 
-    Route::any('/ConsultaDetalleGuia', 'ConsultaDetalleGuiaController@ConsultaDetalleGuia')
+    Route::match(['get', 'post'],'/ConsultaDetalleGuia', 'ConsultaDetalleGuiaController@ConsultaDetalleGuia')
         ->name('cliente.consultadetalleguia');
 /*
 |--------------------------------------------------------------------------
@@ -47,10 +47,10 @@ use Illuminate\Support\Facades\Route;
     | Ingreso Simple
     |--------------------------------------------------------------------------
     */
-    Route::any('/IngresoSimple/Master','IngresoSimpleController@IngresoSimpleMaster')
+    Route::match(['get', 'post'],'/IngresoSimple/Master','IngresoSimpleController@IngresoSimpleMaster')
         ->name('cliente.ingresosimple.master');
 
-    Route::any('/IngresoSimple/House','IngresoSimpleController@IngresoSimpleHouse')
+    Route::match(['get', 'post'],'/IngresoSimple/House','IngresoSimpleController@IngresoSimpleHouse')
         ->name('cliente.ingresosimple.house');
     /*
     |--------------------------------------------------------------------------
@@ -63,10 +63,10 @@ use Illuminate\Support\Facades\Route;
     | IngresoParcial
     |--------------------------------------------------------------------------
     */
-    Route::any('/IngresoParcial/Master/','IngresoParcialController@IngresoParcialMaster')
+    Route::match(['get', 'post'],'/IngresoParcial/Master/','IngresoParcialController@IngresoParcialMaster')
         ->name('cliente.ingresoparcial.master');
 
-    Route::any('/IngresoParcial/House','IngresoParcialController@IngresoParcialHouse')
+    Route::match(['get', 'post'],'/IngresoParcial/House','IngresoParcialController@IngresoParcialHouse')
         ->name('cliente.ingresoparcial.house');
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ use Illuminate\Support\Facades\Route;
     | IngresoNoManifestado
     |--------------------------------------------------------------------------
     */
-    Route::any('/IngresoNoManifestado','IngresoNoManifestadoController@IngresoNoManifestado')
+    Route::match(['get', 'post'],'/IngresoNoManifestado','IngresoNoManifestadoController@IngresoNoManifestado')
         ->name('cliente.ingresonomanifestado');
     /*
     |--------------------------------------------------------------------------
@@ -103,10 +103,10 @@ use Illuminate\Support\Facades\Route;
     | Salida Master
     |--------------------------------------------------------------------------
     */
-    Route::any('/Salida/Solicitud/Master','SalidasController@SolicitudSalidaMaster')
+    Route::match(['get', 'post'],'/Salida/Solicitud/Master','SalidasController@SolicitudSalidaMaster')
         ->name('cliente.salida.solicitud.master');
 
-    Route::any('/Salida/Confirmacion/MasterDirecta','SalidasController@ConfirmacioSalidaMaster')
+    Route::match(['get', 'post'],'/Salida/Confirmacion/MasterDirecta','SalidasController@ConfirmacioSalidaMaster')
         ->name('cliente.salida.confirmacion.master');
     /*
     |--------------------------------------------------------------------------
@@ -119,10 +119,10 @@ use Illuminate\Support\Facades\Route;
     | Salida House
     |--------------------------------------------------------------------------
     */
-    Route::any('/Salida/Solicitud/House','SalidasController@SolicitudSalidaHouse')
+    Route::match(['get', 'post'],'/Salida/Solicitud/House','SalidasController@SolicitudSalidaHouse')
         ->name('cliente.salida.solicitud.house.directa');
 
-    Route::any('/Salida/Confirmacion/House','SalidasController@ConfirmacionSalidaHouse')
+    Route::match(['get', 'post'],'/Salida/Confirmacion/House','SalidasController@ConfirmacionSalidaHouse')
         ->name('cliente.salida.confirmacion.house.directa');
     /*
     |--------------------------------------------------------------------------
@@ -140,7 +140,7 @@ use Illuminate\Support\Facades\Route;
 | Cancelaciones
 |--------------------------------------------------------------------------
 */
-    Route::any('/Salida/Cancelacion','CancelacionesController@Cancelaciones')
+    Route::match(['get', 'post'],'/Salida/Cancelacion','CancelacionesController@Cancelaciones')
         ->name('cliente.salida.cancelacion');
 /*
 |--------------------------------------------------------------------------
@@ -152,5 +152,5 @@ use Illuminate\Support\Facades\Route;
 //Inicia sección para consulta de información API Rest
 /*======================================================================================*/
 
-Route::any('/api/guiasmaster/', 'ApiController@verGuiasMaster')
-    ->name('guiasmaster');
+Route::match(['get', 'post'],'/api/notificaciones/', 'ApiController@getAllNotificaciones')
+    ->name('getAllNotificaciones');

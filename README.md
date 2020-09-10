@@ -7,6 +7,7 @@
 ## Información para el desarrollo
 
 ```sh
+Testeado con:
     PHP: 7.2.19
     Laravel Framework: 7.26.1
 ```
@@ -115,11 +116,11 @@
     fechaFinDescarga
     peso
     condicionCarga
-    guiasHouse
+    guiaHouse
     ```
 * Ejemplo de Request por **Guías House** (METHOD GET / URL_ENCODED):
     ```sh
-    http://localhost/sira/IngresoSimple/House?tipoOperacion=1&guiasHouse=TRESABRIL27%2CCUATROABRIL27%2CCINCOABRIL27&consecutivo=20000006Q&idAsociado=20000006Q&fechaInicioDescarga=2020-08-14T09%3A11%3A32-05%3A00&fechaFinDescarga=2020-08-14T09%3A50%3A00-05%3A00&peso=301.0&condicionCarga=1&tipoMercancia=1
+    http://localhost/sira/IngresoSimple/House?tipoOperacion=1&guiasHouse=TRESABRIL27&consecutivo=20000006Q&idAsociado=20000006Q&fechaInicioDescarga=2020-08-14T09%3A11%3A32-05%3A00&fechaFinDescarga=2020-08-14T09%3A50%3A00-05%3A00&peso=301.0&condicionCarga=1&tipoMercancia=1
     ```
 ## IngresoParcial (Cliente)
 ### Master

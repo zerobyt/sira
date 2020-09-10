@@ -1,7 +1,7 @@
 <?php
 
 /*
-*  Webservice VUCEM/SIRA basado en Manual de Operación SIRA v3.5
+*  Webservice VUCEM/SIRA basado en Manual de Operación SIRA v3.7
 *  Desarrollado por Cristian Omar Vega Mendoza.
 *  para Interpuerto Multimodal de México S.A. de C.V.
 *  queda estrictamente prohibida la reproducción total y/o parcial
@@ -21,6 +21,7 @@ class Guia extends Model
     protected $table = 'guia';
     public $timestamps = true;
     protected $dates = ['deleted_at'];
+    public $hidden = ['id','created_at','updated_at','deleted_at','idInfoGeneral','idMaster'];
     protected $fillable = [
         'numeroGuiaBl',
         'caat',
@@ -44,4 +45,39 @@ class Guia extends Model
     {
         return $this->belongsTo(InformacionGeneral::class,'idInfoGeneral');
     }
+
+    public function Mercancia()
+    {
+        return $this->hasMany(Mercancia::class,'idGuia');
+    }
+
+    public function Personas()
+    {
+        return $this->hasMany(Personas::class,'idGuia');
+    }
+
+    public function Vin()
+    {
+        return $this->hasManyThrough(
+            'App\Models\Vin',
+            'App\Models\Mercancia',
+            'idGuia',
+            'idMercancia',
+            'id',
+            'id'
+        );
+    }
+
+    public function Imo()
+    {
+        return $this->hasManyThrough(
+            'App\Models\Imo',
+            'App\Models\Mercancia',
+            'idGuia',
+            'idMercancia',
+            'id',
+            'id'
+        );
+    }
+
 }

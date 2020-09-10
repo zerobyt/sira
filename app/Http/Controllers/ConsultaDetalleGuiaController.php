@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -65,6 +66,6 @@ class ConsultaDetalleGuiaController extends Controller
     {
         $data = ['arg0'=>['camir'=>$this->camir,'trafico'=>$this->trafico,'manifiesto'=>$request->manifiesto,'guiaMaster'=>$request->guiaMaster]];
         $call = $this->cliente->call('notificacionIngresoMercancia',$data);
-        return response()->json($call, JSON_UNESCAPED_UNICODE );
+        return response()->json($call,200,[],JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE );
     }
 }

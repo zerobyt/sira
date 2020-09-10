@@ -13,6 +13,7 @@ use App\Models\Mercancia;
 use App\Models\Personas;
 use App\Models\Transporte;
 use App\Models\Vin;
+use App\Models\LogDataRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,6 +23,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use App\Helpers\nusoap_client;
 use Config;
+use Spatie\ArrayToXml\ArrayToXml;
+
 
 class IngresoSimpleController extends Controller
 {
@@ -59,6 +62,7 @@ class IngresoSimpleController extends Controller
         $this->cliente = new nusoap_client($this->endpoint.'?wsdl','wsdl');
         $this->cliente->setEndpoint($this->endpoint);
         $this->cliente->setHeaders($header);
+        $this->cliente->setCredentials($this->username, $this->password);
     }
 
     /*IngresoSimple por Guía Master*/
@@ -77,7 +81,7 @@ class IngresoSimpleController extends Controller
 
         if ($validator->fails()) {
             $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
-            return response()->json($response, JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE  );
+            return response()->json($response);
         }
 
         $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR MASTER IMM RECINTO 262';
@@ -121,9 +125,23 @@ class IngresoSimpleController extends Controller
                 ]
             ];
 
+            //Retorna el arrayObject directo del WS de VUCEM
             $call = $this->cliente->call('ingresoSimple',$data);
-            return response()->json($call, JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE  );
-            //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
+            $response = json_encode($call, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+
+            //Guardando request en base de datos
+            $LogData = new LogDataRequest;
+            $LogData->consecutivo = $request->consecutivo;
+            $LogData->idAsociado = $request->idAsociado;
+            $LogData->tipo_request = 'ingresoSimpleMaster';
+            $LogData->data_request = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+            $LogData->data_response_json = $response;
+            $LogData->data_response_xml = ArrayToXml::convert($call);
+            $LogData->save();
+
+            return response($response);
+
+
     }
     /*end IngresoSimple por Guía Master*/
 
@@ -139,23 +157,26 @@ class IngresoSimpleController extends Controller
             'fechaFinDescarga' => 'required',
             'peso' => 'required',
             'condicionCarga' => 'required',
-            'guiasHouse' => 'required',
+            'guiaHouse' => 'required'
         ]);
 
         if ($validator->fails()) {
             $response = ['return'=>'error','mensajes'=>'Error al recibir los valores requeridos'];
-            return response()->json($response, JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE );
+            return response()->json($response);
         }
 
-        $ArrayHouses = [];
-        $guiasHouse = explode(',', $request->guiasHouse);
-        for($i=0;$i<count($guiasHouse);$i++){
-            $ArrayHouses['guiasHouse'][] = ['guiaHouse'=>$guiasHouse[$i]];
-        }
+        //
+        // $ArrayHouses = [];
+        // $guiasHouse = explode(',', $request->guiasHouse);
+        // for($i=0;$i<count($guiasHouse);$i++){
+        //     $ArrayHouses['guiasHouse'][] = ['guiaHouse'=>$guiasHouse[$i]];
+        // }
 
         $observaciones = isset($request->observaciones) ? $request->observaciones : 'INGRESO SIMPLE POR HOUSE IMM RECINTO 262';
 
-        $informacionGeneral = ['informacionGeneral' =>
+        $data =
+            ['arg0'=>
+                ['informacionGeneral' =>
                     [
                         //AQUI VA EL CONSECUTIVO GENERADO POR EL EMISOR DE LA TRANSMISION
                         'consecutivo'=>$request->consecutivo,
@@ -174,8 +195,7 @@ class IngresoSimpleController extends Controller
                         //AQUÍ VA H = HOUSE EN ESTE CASO
                         'tipoIngreso'=>'H'
                     ]
-                ];
-        $informacionIngreso = ['informacionIngreso' =>
+                ,'informacionIngreso' =>
                     [
                         //AQUI VAN VALORES DE CATALOGO QUE ENVIA RF 1=3 DÍAS, 2=45 DÍAS, 3=60 DÍAS
                         'tipoMercancia'=>$request->tipoMercancia,
@@ -190,20 +210,27 @@ class IngresoSimpleController extends Controller
                         //AQUÍ VAN LOS DETALLES DEL INGRESO DE LA MERCANCÍA
                         'observaciones'=>$observaciones
                     ]
-                ];
-
-        $merge_request = array_merge(
-                $informacionGeneral,
-                $informacionIngreso,
-                $ArrayHouses
-        );
-
-        $data = ['arg0'=>$merge_request];
+                ,'guiasHouse' =>
+                    ['guiaHouse' => $request->guiaHouse ]
+                ]
+            ];
 
 
+        //Retorna el arrayObject directo del WS de VUCEM
         $call = $this->cliente->call('ingresoSimple',$data);
-        return response()->json($call, JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE );
-        //return response()->json($data, JSON_UNESCAPED_UNICODE);//Debuging Request
+        $response = json_encode($call, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+
+        //Guardando request en base de datos
+        $LogData = new LogDataRequest;
+        $LogData->consecutivo = $request->consecutivo;
+        $LogData->idAsociado = $request->idAsociado;
+        $LogData->tipo_request = 'ingresoSimpleHouse';
+        $LogData->data_request = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE);
+        $LogData->data_response_json = $response;
+        $LogData->data_response_xml = ArrayToXml::convert($call);
+        $LogData->save();
+
+        return response($response);
     }
     /*end IngresoSimple por Guía House*/
 }

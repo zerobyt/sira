@@ -23,9 +23,26 @@ use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
-    public function verGuiasMaster(Request $request)
+    public function getAllNotificaciones()
     {
-        $guias = Guia::where('tipoGuia','M')->get();
-        return response()->json($guias, JSON_UNESCAPED_UNICODE );
+        $informacionGeneral = InformacionGeneral::orderBy('id', 'DESC')->get();
+        foreach($informacionGeneral as $infoGeneral){
+
+            $transporte = Transporte::find($infoGeneral->id);
+            $guiaMaster = Guia::Where('idInfoGeneral', $infoGeneral->id)->Where('tipoGuia','M')->with(['Mercancia','Personas','Vin','Imo'])->first();
+            $guiasHouse = Guia::WhereNotNull('idMaster')->Where('idMaster', $guiaMaster->id)->Where('tipoGuia','H')->with(['Mercancia','Personas','Vin','Imo'])->get();
+
+            $guiaMaster->guiasHouse = $guiasHouse;
+
+            $notificacion[] =
+                [
+                    'informacionGeneral'=> $infoGeneral,
+                    'transporte'=>$transporte,
+                    'guiaMaster'=>$guiaMaster,
+                ];
+
+        }
+
+        return response()->json($notificacion,200,[],JSON_PRETTY_PRINT);
     }
 }
