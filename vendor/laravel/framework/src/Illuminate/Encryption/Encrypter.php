@@ -5,10 +5,9 @@ namespace Illuminate\Encryption;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 use Illuminate\Contracts\Encryption\EncryptException;
-use Illuminate\Contracts\Encryption\StringEncrypter;
 use RuntimeException;
 
-class Encrypter implements EncrypterContract, StringEncrypter
+class Encrypter implements EncrypterContract
 {
     /**
      * The encryption key.
@@ -223,8 +222,24 @@ class Encrypter implements EncrypterContract, StringEncrypter
      */
     protected function validMac(array $payload)
     {
+        $calculated = $this->calculateMac($payload, $bytes = random_bytes(16));
+
         return hash_equals(
-            $this->hash($payload['iv'], $payload['value']), $payload['mac']
+            hash_hmac('sha256', $payload['mac'], $bytes, true), $calculated
+        );
+    }
+
+    /**
+     * Calculate the hash of the given payload.
+     *
+     * @param  array  $payload
+     * @param  string  $bytes
+     * @return string
+     */
+    protected function calculateMac($payload, $bytes)
+    {
+        return hash_hmac(
+            'sha256', $this->hash($payload['iv'], $payload['value']), $bytes, true
         );
     }
 

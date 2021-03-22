@@ -8,8 +8,8 @@
 
 ```sh
 Testeado con:
-    PHP: 7.4.9
-    Laravel Framework: 8.33.1
+    PHP: 7.2.19
+    Laravel Framework: 7.26.1
 ```
 
 ![alt text](./VUCEM.png)

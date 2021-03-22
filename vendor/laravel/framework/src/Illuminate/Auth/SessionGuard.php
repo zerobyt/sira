@@ -20,7 +20,6 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -30,7 +29,7 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
     use GuardHelpers, Macroable;
 
     /**
-     * The name of the guard. Typically "web".
+     * The name of the Guard. Typically "session".
      *
      * Corresponds to guard name in authentication configuration.
      *
@@ -321,7 +320,7 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
     }
 
     /**
-     * Get the credential array for an HTTP Basic request.
+     * Get the credential array for a HTTP Basic request.
      *
      * @param  \Symfony\Component\HttpFoundation\Request  $request
      * @param  string  $field
@@ -519,34 +518,6 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
     }
 
     /**
-     * Log the user out of the application on their current device only.
-     *
-     * This method does not cycle the "remember" token.
-     *
-     * @return void
-     */
-    public function logoutCurrentDevice()
-    {
-        $user = $this->user();
-
-        $this->clearUserDataFromStorage();
-
-        // If we have an event dispatcher instance, we can fire off the logout event
-        // so any further processing can be done. This allows the developer to be
-        // listening for anytime a user signs out of this application manually.
-        if (isset($this->events)) {
-            $this->events->dispatch(new CurrentDeviceLogout($this->name, $user));
-        }
-
-        // Once we have fired the logout event we will clear the users out of memory
-        // so they are no longer available as the user is no longer considered as
-        // being signed into this application and should not be available here.
-        $this->user = null;
-
-        $this->loggedOut = true;
-    }
-
-    /**
      * Remove the user data from the session and cookies.
      *
      * @return void
@@ -575,6 +546,32 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
     }
 
     /**
+     * Log the user out of the application on their current device only.
+     *
+     * @return void
+     */
+    public function logoutCurrentDevice()
+    {
+        $user = $this->user();
+
+        $this->clearUserDataFromStorage();
+
+        // If we have an event dispatcher instance, we can fire off the logout event
+        // so any further processing can be done. This allows the developer to be
+        // listening for anytime a user signs out of this application manually.
+        if (isset($this->events)) {
+            $this->events->dispatch(new CurrentDeviceLogout($this->name, $user));
+        }
+
+        // Once we have fired the logout event we will clear the users out of memory
+        // so they are no longer available as the user is no longer considered as
+        // being signed into this application and should not be available here.
+        $this->user = null;
+
+        $this->loggedOut = true;
+    }
+
+    /**
      * Invalidate other sessions for the current user.
      *
      * The application must be using the AuthenticateSession middleware.
@@ -582,8 +579,6 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
      * @param  string  $password
      * @param  string  $attribute
      * @return bool|null
-     *
-     * @throws \Illuminate\Auth\AuthenticationException
      */
     public function logoutOtherDevices($password, $attribute = 'password')
     {
@@ -591,7 +586,9 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
             return;
         }
 
-        $result = $this->rehashUserPassword($password, $attribute);
+        $result = tap($this->user()->forceFill([
+            $attribute => Hash::make($password),
+        ]))->save();
 
         if ($this->recaller() ||
             $this->getCookieJar()->hasQueued($this->getRecallerName())) {
@@ -601,26 +598,6 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
         $this->fireOtherDeviceLogoutEvent($this->user());
 
         return $result;
-    }
-
-    /**
-     * Rehash the current user's password.
-     *
-     * @param  string  $password
-     * @param  string  $attribute
-     * @return bool|null
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function rehashUserPassword($password, $attribute)
-    {
-        if (! Hash::check($password, $this->user()->{$attribute})) {
-            throw new InvalidArgumentException('The given password does not match the current password.');
-        }
-
-        return tap($this->user()->forceFill([
-            $attribute => Hash::make($password),
-        ]))->save();
     }
 
     /**
