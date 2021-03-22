@@ -37,7 +37,6 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
 {
     use ProcessableHandlerTrait;
 
-    /** @var HandlerInterface */
     protected $handler;
     protected $activationStrategy;
     protected $buffering = true;
@@ -203,14 +202,9 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
-        $handler = $this->getHandler();
-        if ($handler instanceof FormattableHandlerInterface) {
-            $handler->setFormatter($formatter);
+        $this->getHandler()->setFormatter($formatter);
 
-            return $this;
-        }
-
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        return $this;
     }
 
     /**
@@ -218,11 +212,6 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
      */
     public function getFormatter(): FormatterInterface
     {
-        $handler = $this->getHandler();
-        if ($handler instanceof FormattableHandlerInterface) {
-            return $handler->getFormatter();
-        }
-
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        return $this->getHandler()->getFormatter();
     }
 }

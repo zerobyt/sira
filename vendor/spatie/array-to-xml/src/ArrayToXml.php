@@ -13,8 +13,6 @@ class ArrayToXml
 
     protected $replaceSpacesByUnderScoresInKeyNames = true;
 
-    protected $addXmlDeclaration = true;
-
     protected $numericTagNamePrefix = 'numeric_';
 
     public function __construct(
@@ -23,14 +21,9 @@ class ArrayToXml
         $replaceSpacesByUnderScoresInKeyNames = true,
         $xmlEncoding = null,
         $xmlVersion = '1.0',
-        $domProperties = [],
-        $xmlStandalone = null
+        $domProperties = []
     ) {
         $this->document = new DOMDocument($xmlVersion, $xmlEncoding);
-
-        if (! is_null($xmlStandalone)) {
-            $this->document->xmlStandalone = $xmlStandalone;
-        }
 
         if (! empty($domProperties)) {
             $this->setDomProperties($domProperties);
@@ -60,8 +53,7 @@ class ArrayToXml
         bool $replaceSpacesByUnderScoresInKeyNames = true,
         string $xmlEncoding = null,
         string $xmlVersion = '1.0',
-        array $domProperties = [],
-        bool $xmlStandalone = null
+        array $domProperties = []
     ) {
         $converter = new static(
             $array,
@@ -69,8 +61,7 @@ class ArrayToXml
             $replaceSpacesByUnderScoresInKeyNames,
             $xmlEncoding,
             $xmlVersion,
-            $domProperties,
-            $xmlStandalone
+            $domProperties
         );
 
         return $converter->toXml();
@@ -78,10 +69,6 @@ class ArrayToXml
 
     public function toXml(): string
     {
-        if ($this->addXmlDeclaration === false) {
-            return $this->document->saveXml($this->document->documentElement);
-        }
-
         return $this->document->saveXML();
     }
 
@@ -118,13 +105,6 @@ class ArrayToXml
         return $this;
     }
 
-    public function dropXmlDeclaration()
-    {
-        $this->addXmlDeclaration = false;
-
-        return $this;
-    }
-
     private function convertElement(DOMElement $element, $value)
     {
         $sequential = $this->isArrayAllKeySequential($value);
@@ -154,7 +134,7 @@ class ArrayToXml
                 } elseif ($key === '__numeric') {
                     $this->addNumericNode($element, $data);
                 } elseif (substr($key, 0, 9) === '__custom:') {
-                    $this->addNode($element, str_replace('\:', ':', preg_split('/(?<!\\\):/', $key)[1]), $data);
+                    $this->addNode($element, explode(':', $key)[1], $data);
                 } else {
                     $this->addNode($element, $key, $data);
                 }

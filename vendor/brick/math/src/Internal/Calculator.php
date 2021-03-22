@@ -677,9 +677,6 @@ abstract class Calculator
     }
 
     /**
-     * @psalm-suppress InvalidOperand
-     * @see https://github.com/vimeo/psalm/issues/4456
-     *
      * @param string $number A positive, binary number.
      *
      * @return string
@@ -688,7 +685,7 @@ abstract class Calculator
     {
         $xor = \str_repeat("\xff", \strlen($number));
 
-        $number ^= $xor;
+        $number = $number ^ $xor;
 
         for ($i = \strlen($number) - 1; $i >= 0; $i--) {
             $byte = \ord($number[$i]);

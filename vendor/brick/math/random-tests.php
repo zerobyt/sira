@@ -64,7 +64,7 @@ use Brick\Math\Internal\Calculator;
      * @param string $a The left operand.
      * @param string $b The right operand.
      */
-    private function runTests(string $a, string $b) : void
+    function runTests(string $a, string $b) : void
     {
         $this->test("$a + $b", function(Calculator $c) use($a, $b) {
             return $c->add($a, $b);
@@ -123,11 +123,8 @@ use Brick\Math\Internal\Calculator;
      */
     private function test(string $test, Closure $callback) : void
     {
-        static $testCounter = 0;
-        static $lastOutputTime = 0.0;
-        static $currentSecond = 0;
-        static $currentSecondTestCounter = 0;
-        static $testsPerSecond = 0;
+        static $counter = 0;
+        static $lastOutputTime = null;
 
         $gmpResult    = $callback($this->gmp);
         $bcmathResult = $callback($this->bcmath);
@@ -141,20 +138,13 @@ use Brick\Math\Internal\Calculator;
             self::failure('GMP', 'Native', $test);
         }
 
-        $testCounter++;
-        $currentSecondTestCounter++;
-
+        $counter++;
         $time = microtime(true);
-        $second = (int) $time;
 
-        if ($second !== $currentSecond) {
-            $currentSecond = $second;
-            $testsPerSecond = $currentSecondTestCounter;
-            $currentSecondTestCounter = 0;
-        }
-
-        if ($time - $lastOutputTime >= 0.1) {
-            echo "\r", number_format($testCounter), ' (', number_format($testsPerSecond) . ' / s)';
+        if ($lastOutputTime === null) {
+            $lastOutputTime = $time;
+        } elseif ($time - $lastOutputTime >= 0.1) {
+            echo "\r", number_format($counter);
             $lastOutputTime = $time;
         }
     }

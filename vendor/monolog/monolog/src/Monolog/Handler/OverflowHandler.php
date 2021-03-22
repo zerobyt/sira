@@ -131,13 +131,9 @@ class OverflowHandler extends AbstractHandler implements FormattableHandlerInter
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
-        if ($this->handler instanceof FormattableHandlerInterface) {
-            $this->handler->setFormatter($formatter);
+        $this->handler->setFormatter($formatter);
 
-            return $this;
-        }
-
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($this->handler).' does not support formatters.');
+        return $this;
     }
 
     /**
@@ -145,10 +141,6 @@ class OverflowHandler extends AbstractHandler implements FormattableHandlerInter
      */
     public function getFormatter(): FormatterInterface
     {
-        if ($this->handler instanceof FormattableHandlerInterface) {
-            return $this->handler->getFormatter();
-        }
-
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($this->handler).' does not support formatters.');
+        return $this->handler->getFormatter();
     }
 }
