@@ -8,7 +8,7 @@
 
 ```sh
 Testeado con:
-    PHP: 7.2.19
+    PHP: 7.4.16
     Laravel Framework: 7.26.1
 ```
 
@@ -31,6 +31,12 @@ Testeado con:
 
 ## Licencia
 * Todos los Derechos Reservados
+
+##    
+* URL Testing
+    ```sh
+    http://localhost/sira/testing/index.html
+    ```
 
 ## NotificacionIngresoMercancia (Servidor)
 > Entrega un **idAsociado** por **Guía Master** y un **consecutivo** por **Guía House** así como la información manifestada por la aerolínea que debe recibir el recinto fiscalizado.

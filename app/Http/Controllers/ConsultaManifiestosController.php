@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use App\Helpers\nusoap_client;
+//use App\Helpers\nusoap_client;
 use Config;
-
+use nusoap_client;
 
 class ConsultaManifiestosController extends Controller
 {
@@ -33,7 +33,7 @@ class ConsultaManifiestosController extends Controller
         $this->endpoint = Config::get('app.vucemsira.endpoint_manifiesto');
 
         // Seguridad
-        $created = gmdate('Y-m-d\TH:i:s \Z');
+        $created = gmdate('Y-m-d\TH:i:s\Z');
         $expires = gmdate('Y-m-d\TH:i:s\Z', time() + 59);
         $header = "
         <wsse:Security
@@ -50,10 +50,13 @@ class ConsultaManifiestosController extends Controller
             </wsu:Timestamp>
             </wsse:Security>";
         $this->cliente = new nusoap_client($this->endpoint.'?wsdl','wsdl');
+        $this->cliente->soap_defencoding = 'UTF-8';
+        $this->cliente->decode_utf8 = FALSE;
         $this->cliente->setEndpoint($this->endpoint);
         $this->cliente->setHeaders($header);
         //$this->cliente->setCredentials($this->username, $this->password);
     }
+
 
     /**
      * [ConsultaManifiestos Obtiene las guías masters que corresponden a un manifiesto determinado]
