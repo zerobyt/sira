@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use App\Helpers\nusoap_client;
+//use App\Helpers\nusoap_client;
+use nusoap_client;
 use Config;
 
 class CancelacionesController extends Controller
